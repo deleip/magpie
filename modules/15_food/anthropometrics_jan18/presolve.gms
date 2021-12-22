@@ -228,6 +228,9 @@ curr_iter15(iter15)$(ord(iter15)=p15_iteration_counter(t)) = yes;
 
 p15_delta_income(t,i,curr_iter15) = 1;
 
+* setting initial payout from GHG tax revenues to 0
+p15_tax_payout_pc(iso) = 0;
+
 display "starting demand model for initialisation run....";
 
 
@@ -266,6 +269,15 @@ p15_kcal_regr(t, iso, kfo) = v15_kcal_regr.l(iso, kfo);
 
 * saving regression outcome for BMI shares
 p15_bmi_shr_regr(t,iso,sex,age,bmi_group15 )= v15_bmi_shr_regr.l(iso,sex,age,bmi_group15);
+
+* saving real income 
+p15_income_pc_real_ppp_iso(t, iso, curr_iter15) = v15_income_pc_real_ppp_iso.l(iso);
+
+* saving regression outcome for postprocessing
+p15_kcal_regr_iter(t, iso, kfo, curr_iter15)=v15_kcal_regr.l(iso, kfo);
+
+* saving rincome balance
+p15_income_balance(t, iso, curr_iter15)=v15_income_balance.l(iso);
 
 * deriving calibration values
 

@@ -78,6 +78,13 @@ parameters
  p15_prices_kcal(t,iso,kfo,iter15)                 Prices from MAgPIE after optimization (USD05PPP per kcal)
  i15_prices_initial_kcal(iso,kfo)                  Initial prices that capture the approximate level of prices in 1961-2010 (USD05PPP per kcal)
 
+* real income
+ p15_income_pc_real_ppp_iso(t, iso, iter15)        Real income per cap (USD05PPP per cap)
+ p15_income_balance(t, iso, iter15)                   To balance cases in which reduction in income is larger than the per capita GDP (USD05PPP per cap per yr)
+
+* GHG tax redistribution
+  p15_tax_payout_pc(iso)                           Per capita payout from GHG tax redistribution (USD05PPP per cap) 
+
 * anthropometrics
   o15_bmi_shr(t,iso,sex,age,bmi_group15)           Calibrated estimates BMI share for population groups  (1)
   p15_bodyheight(t,iso,sex,age,estimates15)        Body height (cm per cap)
@@ -99,6 +106,7 @@ parameters
   p15_intake(t,iso,sex,age,bmi_group15)            Mean food intake by population group (kcal per capita per day)
   i15_kcal_pregnancy(t,iso)                        Additional calorie requirements  for pregnancy and lactation (kcal)
   p15_kcal_regr(t, iso, kfo)                       Uncalibrated regression estimates of calorie demand (kcal per cap per day)
+  p15_kcal_regr_iter(t, iso, kfo, iter15)          Uncalibrated regression estimates of calorie demand for each iteration (kcal per cap per day)
 
   i15_milk_share_fadeout_india(t_all)              Temporal fader of milk share in india (applied before food demand model) (1)
   i15_rum_share_fadeout(t_all,iso)                 Temporal fader of ruminant meat share (applied before food demand model) (1)

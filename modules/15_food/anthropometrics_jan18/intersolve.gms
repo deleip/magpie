@@ -29,9 +29,12 @@ prev_iter15(iter15)$(ord(iter15)=p15_iteration_counter(t)-1) = yes;
 if (magpie.modelstat = NA,
     q15_food_demand.m(i,kfo)=0;
     p15_prices_kcal(t,iso,kfo,curr_iter15)=i15_prices_initial_kcal(iso,kfo)*f15_price_index(t);
+    p15_tax_payout_pc(iso) = 0;
 else
     display "Coupling: Reading out marginal costs from MAgPIE as shock to demand model";
     p15_prices_kcal(t,iso,kfo,curr_iter15)=sum(i_to_iso(i,iso), q15_food_demand.m(i,kfo));
+    p15_tax_payout_pc(iso) = sum((ct, i_to_iso(i,iso)), ((vm_emission_costs.l(i) + vm_peatland_emis_cost.l(i)) 
+        * (im_gdp_pc_ppp(ct,i) / im_gdp_pc_mer(ct,i))) / im_pop(ct,i)) * s15_tax_redistribution;
 );
 
 display "starting iteration number ", p15_iteration_counter;
@@ -51,6 +54,16 @@ p15_modelstat(t) = m15_food_demand.modelstat;
 
 display "Food Demand Model finished with modelstat ";
 display p15_modelstat;
+
+* saving real income 
+p15_income_pc_real_ppp_iso(t, iso, curr_iter15) = v15_income_pc_real_ppp_iso.l(iso);
+
+* saving regression outcome for postprocessing
+p15_kcal_regr_iter(t, iso, kfo, curr_iter15)=v15_kcal_regr.l(iso, kfo);
+
+* saving income balance
+p15_income_balance(t, iso, curr_iter15)=v15_income_balance.l(iso);
+
 
 if(p15_modelstat(t) > 2 AND p15_modelstat(t) ne 7,
   m15_food_demand.solprint = 1
