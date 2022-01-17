@@ -5,17 +5,12 @@
 *** |  MAgPIE License Exception, version 1.0 (see LICENSE file).
 *** |  Contact: magpie@pik-potsdam.de
 
-*' @description The main goal of this realization is to improve crop patterns at different spatial
-*' scales. Specifically, the goal is reached by reducing capital relocation flexibility between
-*' crop types. In the "sticky" realization, the factor costs are separated into variable and
-*' capital investment costs. Then, capital is furtherly divided into immobile and mobile, where
-*' mobility is defined between crops. In this way, changes in cropland are favored in locations
-*' with existing capital stocks.
+*' @description This realization is based on sticky_feb18, but uses regional factor requirements
+*' instead of global values. Furthermore, historic values for factor requirements are used up 
+*' until 2010, and kept constant afterwards. The aim of this realization is to better match 
+*' historic data on labor costs.
 
-*' @limitations This realization assumes that factor costs, within a region,
-*' purely depend on the production and are independent of the area under cultivation.
-*' By implication, cases in which the harvested area could significantly influence
-*' factors costs are hardly accounted in this realization.
+*' @limitations 
 
 
 *####################### R SECTION START (PHASES) ##############################
