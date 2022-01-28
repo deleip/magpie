@@ -8,7 +8,7 @@
 
 *' @equations
 *' Variable costs (without capital): The factor costs are calculated based on the requirements  of the regional aggregated production without
-* considering capital costs.
+*' considering capital costs.
 
 q38_cost_prod_crop(i2,kcr).. vm_cost_prod(i2,kcr)
                               =e= vm_prod_reg(i2,kcr) * sum(ct,p38_variable_costs(ct,i2,kcr))

@@ -15,7 +15,7 @@ parameters
   i09_gdp_mer(t_all,i)                        Income in market exchange rates (mio. USD05MER per yr)
 
   im_gdp_pc_mer(t_all,i)                Per capita income in market exchange rates (USD05MER per cap per yr)
-  i09_gdp_pc_mer_iso(t_all,iso)         Per capita income in market exchange rates (USD05MER per cap per yr)
+  im_gdp_pc_mer_iso(t_all,iso)         Per capita income in market exchange rates (USD05MER per cap per yr)
 
 * GDP in PPP
   i09_gdp_ppp_iso(t_all,iso)                      Income in purchasing power parity (mio. USD05PPP per yr)
