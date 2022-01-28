@@ -18,7 +18,7 @@ s38_immobile  immobile capital (share) / 1 /
 parameter f38_fac_req_regional(t_all,i,kcr) Historic factor requirement costs (USD05MER per tDM)
 /
 $ondelim
-$include "./modules/38_factor_costs/sticky_regional/input/f38_fac_req_fao_regional.csv"
+$include "./modules/38_factor_costs/sticky_regional/input/f38_fac_req_fao_regional.cs4"
 $offdelim
 /
 ;

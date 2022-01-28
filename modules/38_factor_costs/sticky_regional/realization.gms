@@ -6,11 +6,15 @@
 *** |  Contact: magpie@pik-potsdam.de
 
 *' @description This realization is based on sticky_feb18, but uses regional factor requirements
-*' instead of global values. Furthermore, historic values for factor requirements are used up 
-*' until 2010, and kept constant afterwards. The aim of this realization is to better match 
-*' historic data on labor costs.
+*' (`f38_fac_req_regional`) instead of global values. Furthermore, historic values for factor
+*' requirements are used up until 2010 and kept constant afterwards, instead of using values
+*' from 2005 for all years. The aim of this realization is to better match historic data on labor costs.
 
-*' @limitations 
+*' @limitations This realization assumes that factor costs, within a region, purely depend on 
+*' the production and are independent of the area under cultivation. By implication, cases in 
+*' which the harvested area could significantly influence factors costs are hardly accounted 
+*' in this realization. Furthermore, current regional inequalitoes in crop production costs are
+*' locked in by using regional factor requirements which are kept constant for future years.
 
 
 *####################### R SECTION START (PHASES) ##############################
