@@ -56,13 +56,13 @@ $offdelim
 parameter f36_regr_cap_share(reg36) Parameters for dynamic regression
 /
 $ondelim
-$include "./modules/36_employment/exo/input/f38_regression_cap_share.csv"
+$include "./modules/36_employment/exo/input/f36_regression_cap_share.csv"
 $offdelim
 /
 ;
 
 table f36_hist_cap_share(t_all,i) Historical capital share
 $ondelim
-$include "./modules/36_employment/exo/input/f38_historical_share.csv"
+$include "./modules/36_employment/exo/input/f36_historical_share.csv"
 $offdelim
 ;
