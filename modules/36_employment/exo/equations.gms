@@ -7,8 +7,14 @@
 
 
 *' @equations
+
+*' Labor costs are calculated by multiplying the factor costs of production
+*' by the share of labor our of factor costs.
+
+q36_labor_costs(i2,kall) .. v36_labor_costs(i2,kall) = vm_cost_prod(i2,kall) * sum(ct,1-p36_capital_cost_share(ct,i2))
+
 *' Employment calculated as labor costs devided by total hourly labor costs and 
 *' average hours worked per employed person per year.
 
-q36_employment(i2,kall) .. v36_employment(i2,kall)
-                              =e= vm_cost_prod(i2,kall) / (sum(ct,p36_weekly_hours(ct,i2)*52.1429*p36_hourly_costs(ct,i2)));
+q36_employment(i2) .. v36_employment(i2)
+                              =e= (sum(kall,v36_labor_costs(i2,kall)) + i36_labor_costs_nonmagpie(ct,i2) + i36_unspecific_subsidies(ct,i2)) / (sum(ct,f36_weekly_hours(ct,i2)*52.1429*p36_hourly_costs(ct,i2)));

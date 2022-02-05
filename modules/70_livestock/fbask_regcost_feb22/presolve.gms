@@ -5,16 +5,6 @@
 *** |  MAgPIE License Exception, version 1.0 (see LICENSE file).
 *** |  Contact: magpie@pik-potsdam.de
 
-p38_capital_cost_share(t,i) = 0;
-p38_share_calibration(i) = f38_historical_share("y2010",i)-(f38_reg_parameters("slope")*log10(sum(i_to_iso(i,iso),im_gdp_pc_ppp_iso("y2010",iso)))+f38_reg_parameters("intercept"));
-
-if (m_year(t)<2010,
-p38_capital_cost_share(t,i) = f38_historical_share(t,i);
-elseif (m_year(t)>=2010),
-p38_capital_cost_share(t,i) = f38_reg_parameters("slope")*log10(sum(i_to_iso(i,iso),im_gdp_pc_ppp_iso(t,iso)))+f38_reg_parameters("intercept")+p38_share_calibration(i);
-$endif
-);
-
 *' @code
 *' The fbask_jan16 realization of the livestock module also estimates an exogenous 
 *' pasture management factor `pm_past_mngmnt_factor` that is used to scale
