@@ -12,7 +12,6 @@ $include "./modules/36_factor_costs/exo/input/f36_weekly_hours.csv"
 $offdelim
 ;
 
-* calcOutput("HourlyLaborCosts", datasource = "USDA_FAO", fillWithRegression = TRUE, aggregate = FALSE, years = seq(1960,2015,5))
 table f36_hist_hourly_costs(t_all,iso) Parameters for regression of hourly labor costs with GDPpcMER
 /
 $ondelim

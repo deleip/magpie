@@ -8,7 +8,6 @@
 
 positive variables
  vm_dem_feed(i,kap,kall)          Regional feed demand including byproducts (mio. tDM per yr)
- vm_costs_cap(i,kall)             Regional capital costs (mio USD05MER)
 ;
 
 equations
