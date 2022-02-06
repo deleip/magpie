@@ -12,8 +12,8 @@ positive variables
 
 equations
  q70_feed(i,kap,kall)             Regional feed demand
- q70_cost_prod_liv(i,kall)        Regional labor costs for livestock production
- q70_cost_prod_fish(i)            Regional labor costs for fish production
+ q70_cost_prod_liv(i,kall)        Regional factor input costs for livestock production
+ q70_cost_prod_fish(i)            Regional factor input costs for fish production
 ;
 
 parameters
