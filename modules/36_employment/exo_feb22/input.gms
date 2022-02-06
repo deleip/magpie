@@ -8,14 +8,14 @@
 
 table f36_weekly_hours(t_all,i) Historical values of average weekly hours worked per person in agriculture
 $ondelim
-$include "./modules/36_factor_costs/exo/input/f36_weekly_hours.csv"
+$include "./modules/36_factor_costs/exo_feb22/input/f36_weekly_hours.csv"
 $offdelim
 ;
 
 table f36_hist_hourly_costs(t_all,iso) Parameters for regression of hourly labor costs with GDPpcMER
 /
 $ondelim
-$include "./modules/36_employment/exo/input/f36_historic_hourly_labor_costs.csv"
+$include "./modules/36_employment/exo_feb22/input/f36_historic_hourly_labor_costs.csv"
 $offdelim
 /
 ;
@@ -23,7 +23,7 @@ $offdelim
 table f36_regr_hourly_costs(reg36) Parameters for regression of hourly labor costs with GDPpcMER
 /
 $ondelim
-$include "./modules/36_employment/exo/input/f36_regression_hourly_labor_costs.csv"
+$include "./modules/36_employment/exo_feb22/input/f36_regression_hourly_labor_costs.csv"
 $offdelim
 /
 ;
@@ -31,7 +31,7 @@ $offdelim
 parameter f36_agg_weight(iso) Total hours worked based on ILO data for 2015 as aggregation weigth for hourly costs
 /
 $ondelim
-$include "./modules/36_factor_costs/exo/input/f36_agg_weight.csv"
+$include "./modules/36_factor_costs/exo_feb22/input/f36_agg_weight.csv"
 $offdelim
 /
 ;
@@ -39,7 +39,7 @@ $offdelim
 parameter f36_unspecified_subsidies(t_all,i) Factor cost share of unspecified subsidies not included in MAgPIE labor costs
 /
 $ondelim
-$include "./modules/36_factor_costs/exo/input/f36_unspecified_subsidies.csv"
+$include "./modules/36_factor_costs/exo_feb22/input/f36_unspecified_subsidies.csv"
 $offdelim
 /
 ;
@@ -47,7 +47,7 @@ $offdelim
 parameter f36_nonmagpie_vop(t_all,i) Factor cost share of VoP from ag commodities not mapped to MAgPIE
 /
 $ondelim
-$include "./modules/36_factor_costs/exo/input/f36_nonmagpie_vop.csv"
+$include "./modules/36_factor_costs/exo_feb22/input/f36_nonmagpie_vop.csv"
 $offdelim
 /
 ;
@@ -55,13 +55,13 @@ $offdelim
 parameter f36_regr_cap_share(reg36) Parameters for dynamic regression
 /
 $ondelim
-$include "./modules/36_employment/exo/input/f36_regression_cap_share.csv"
+$include "./modules/36_employment/exo_feb22/input/f36_regression_cap_share.csv"
 $offdelim
 /
 ;
 
 table f36_hist_cap_share(t_all,i) Historical capital share
 $ondelim
-$include "./modules/36_employment/exo/input/f36_historical_share.csv"
+$include "./modules/36_employment/exo_feb22/input/f36_historical_share.csv"
 $offdelim
 ;

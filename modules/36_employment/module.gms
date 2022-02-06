@@ -14,5 +14,5 @@
 *' @authors Debbora Leip
 
 *###################### R SECTION START (MODULETYPES) ##########################
-$Ifi "%employment%" == "exo" $include "./modules/36_employment/exo/realization.gms"
+$Ifi "%employment%" == "exo_feb22" $include "./modules/36_employment/exo_feb22/realization.gms"
 *###################### R SECTION END (MODULETYPES) ############################
