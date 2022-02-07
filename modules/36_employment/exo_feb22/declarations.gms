@@ -21,6 +21,7 @@ parameters
  p36_hourly_costs(t,i)			 Hourly labor costs in agriculture (USDMER05 per hour)
  p36_capital_cost_share(t,i)     Capital share of factor costs (1)
  p36_share_calibration(i)        Additive calibration term for capital shares (1)
+ p36_nonmagpie_labor_costs(t,i)  Labor costs from subsidies and VoP not covered by MAgPIE (mio USDMER05)
 ;
 
 *#################### R SECTION START (OUTPUT DECLARATIONS) ####################
