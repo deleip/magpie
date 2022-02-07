@@ -26,12 +26,10 @@ $offdelim
 /
 ;
 
-parameter f36_agg_weight(t,iso) Total hours worked based on ILO data for 2015 as aggregation weigth for hourly costs
-/
+table f36_agg_weight(t_all,iso) Total hours worked based on ILO data for 2015 as aggregation weigth for hourly costs
 $ondelim
 $include "./modules/36_employment/exo_feb22/input/f36_agg_weight.csv"
 $offdelim
-/
 ;
 
 table f36_unspecified_subsidies(t_all,i) Factor cost share of unspecified subsidies not included in MAgPIE labor costs
