@@ -6,7 +6,7 @@
 *** |  Contact: magpie@pik-potsdam.de
 
 * calibration of hourly labor costs regression with GDP pc in MER
-p36_calibration_hourly_costs(iso) = f36_hist_hourly_costs("y2015",iso)-(im_gdp_pc_mer_iso("y2015",iso)*f36_regr_hourly_costs(iso,"slope")+f36_regr_hourly_costs(iso,"intercept"));
+p36_calibration_hourly_costs(iso) = f36_hist_hourly_costs("y2015",iso)-(im_gdp_pc_mer_iso("y2015",iso)*f36_regr_hourly_costs("slope")+f36_regr_hourly_costs("intercept"));
 if (m_year(t)<2015,
 	p36_hourly_costs(t,i) = sum(i_to_iso(i,iso),f36_hist_hourly_costs(t,iso)*f36_agg_weight("y2015",iso))*(1/sum(i_to_iso(i,iso),f36_agg_weight("y2015",iso)));
 elseif (m_year(t)>=2015),
@@ -14,7 +14,6 @@ elseif (m_year(t)>=2015),
 													f36_regr_hourly_costs("intercept")+p36_calibration_hourly_costs(iso)), 
 													f36_regr_hourly_costs("threshold"))*f36_agg_weight("y2015",iso))
 												*(1/sum(i_to_iso(i,iso),f36_agg_weight("y2015",iso)));
-$endif	
 );
 
 * capital cost share to split factor costs into labor and capital
@@ -24,7 +23,6 @@ if (m_year(t)<2010,
 p36_capital_cost_share(t,i) = f36_hist_cap_share(t,i);
 elseif (m_year(t)>=2010),
 p36_capital_cost_share(t,i) = f36_regr_cap_share("slope")*log10(sum(i_to_iso(i,iso),im_gdp_pc_ppp_iso(t,iso)))+f36_regr_cap_share("intercept")+p36_share_calibration(i);
-$endif
 );
 
 * non-MAgPIE labor costs

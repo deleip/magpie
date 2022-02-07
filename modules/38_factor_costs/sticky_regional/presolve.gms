@@ -22,10 +22,10 @@ p38_capital_need(t,i,kcr,"immobile") = f38_fac_req_regional(t,i,kcr)  * p38_capi
 * for t>=2010 using factor requirements from 2010 (kept constant), and capital shares based on regression analysis
 elseif (m_year(t)>=2010),
 $ifthen "%c38_sticky_mode%" == "dynamic" p38_capital_cost_share(t,i) = f38_reg_parameters("slope")*log10(sum(i_to_iso(i,iso),im_gdp_pc_ppp_iso(t,iso)))+f38_reg_parameters("intercept")+p38_share_calibration(i);
+$endif
 p38_variable_costs(t,i,kcr) = f38_fac_req_regional("y2010",i,kcr)  * (1-p38_capital_cost_share(t,i));
 p38_capital_need(t,i,kcr,"mobile") = f38_fac_req_regional("y2010",i,kcr) * p38_capital_cost_share(t,i) / (pm_interest(t,i)+s38_depreciation_rate) * (1-s38_immobile);
 p38_capital_need(t,i,kcr,"immobile") = f38_fac_req_regional("y2010",i,kcr)  * p38_capital_cost_share(t,i) / (pm_interest(t,i)+s38_depreciation_rate) * s38_immobile;
-$endif
 );
 
 if (ord(t) = 1,
