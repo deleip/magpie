@@ -7,7 +7,7 @@
 
 sets
   reg36 regression coefficients
-  / slope, intercept /
+  / slope, intercept, threshold /
 ;
 
 alias(iso,iso2);
