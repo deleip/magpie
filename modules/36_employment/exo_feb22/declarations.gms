@@ -13,7 +13,7 @@ equations
 
 positive variables
  v36_labor_costs(i,kall)         Labor costs (mio USDMER05  per yr)
- v36_employment(i,kall)          Number of people employed in agriculture (mio people)
+ v36_employment(i)               Number of people employed in agriculture (mio people)
 ;
 
 parameters

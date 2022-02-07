@@ -26,7 +26,7 @@ $offdelim
 /
 ;
 
-parameter f36_agg_weight(iso) Total hours worked based on ILO data for 2015 as aggregation weigth for hourly costs
+parameter f36_agg_weight(t,iso) Total hours worked based on ILO data for 2015 as aggregation weigth for hourly costs
 /
 $ondelim
 $include "./modules/36_employment/exo_feb22/input/f36_agg_weight.csv"

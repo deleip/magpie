@@ -8,12 +8,12 @@
 * calibration of hourly labor costs regression with GDP pc in MER
 p36_calibration_hourly_costs(iso) = f36_hist_hourly_costs("y2015",iso)-(im_gdp_pc_mer_iso("y2015",iso)*f36_regr_hourly_costs(iso,"slope")+f36_regr_hourly_costs(iso,"intercept"));
 if (m_year(t)<2015,
-	p36_hourly_costs(t,i) = sum(i_to_iso(i,iso),f36_hist_hourly_costs(t,iso)*(f36_agg_weight(iso)/sum(i_to_iso(i,iso2),f36_agg_weight(iso2)));
+	p36_hourly_costs(t,i) = sum(i_to_iso(i,iso),f36_hist_hourly_costs(t,iso)*(f36_agg_weight("y2015",iso)/sum(i_to_iso(i,iso2),f36_agg_weight("y2015",iso2)));
 elseif (m_year(t)>=2015),
 	p36_hourly_costs(t,i) = sum(i_to_iso(i,iso),max((im_gdp_pc_mer_iso(t,iso)*f36_regr_hourly_costs(iso,"slope")+
 													f36_regr_hourly_costs(iso,"intercept")+p36_calibration_hourly_costs(iso)), 
 													f36_regr_hourly_costs(iso,"threshold"))
-												*(f36_agg_weight(iso)/sum(i_to_iso(i,iso2),f36_agg_weight(iso2))));
+												*(f36_agg_weight("y2015",iso)/sum(i_to_iso(i,iso2),f36_agg_weight("y2015",iso2))));
 $endif	
 );
 
