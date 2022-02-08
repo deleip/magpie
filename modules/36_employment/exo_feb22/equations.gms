@@ -17,4 +17,4 @@ q36_labor_costs(i2,kall) .. v36_labor_costs(i2,kall) =e= vm_cost_prod(i2,kall) *
 *' average hours worked per employed person per year.
 
 q36_employment(i2) .. v36_employment(i2)
-                              =e= sum((ct,kall),v36_labor_costs(i2,kall) + p36_nonmagpie_labor_costs(ct,i2)) / sum(ct,f36_weekly_hours(ct,i2)*52.1429*p36_hourly_costs(ct,i2));
+                              =e= (sum(kall,v36_labor_costs(i2,kall)) + sum(ct,p36_nonmagpie_labor_costs(ct,i2)) / sum(ct,f36_weekly_hours(ct,i2)*52.1429*p36_hourly_costs(ct,i2));
