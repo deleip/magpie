@@ -158,12 +158,12 @@ $title magpie
 * md5sum: NA
 * Repository: https://rse.pik-potsdam.de/data/magpie/public
 * 
-* Used data set: additional_data_rev4.07.tgz
-* md5sum: accf653e73cbfd02354158d3b99b046f
+* Used data set: additional_data_rev4.08.tgz
+* md5sum: NA
 * Repository: https://rse.pik-potsdam.de/data/magpie/public
 * 
-* Used data set: calibration_H12_sticky_feb18_free_30Nov21.tgz
-* md5sum: f9ee7b8955713d8bd860cb65374d1958
+* Used data set: calibration_H12_sticky_feb18_free_18Jan22.tgz
+* md5sum: NA
 * Repository: https://rse.pik-potsdam.de/data/magpie/public
 * 
 * Low resolution: c200
@@ -190,7 +190,7 @@ $title magpie
 * * Call: do.call(functiononly, args)
 * 
 * 
-* Last modification (input data): Fri Jan 21 11:08:10 2022
+* Last modification (input data): Fri Mar  4 10:30:42 2022
 * 
 *###################### R SECTION END (VERSION INFO) ###########################
 
@@ -214,9 +214,9 @@ $offlisting
 **************************MODEL SPECIFIC SCALARS********************************
 *                    Key parameters during model runs
 
-$setglobal c_timesteps  2
+$setglobal c_timesteps  quicktest
 $setglobal c_past  till_2010
-$setglobal c_title  default
+$setglobal c_title  TestClibrationFactorCalculation
 
 scalars
 s_use_gdx   use of gdx files                                       / 2 /
@@ -253,7 +253,7 @@ $setglobal natveg  dynamic_feb21
 
 $setglobal employment  exo_feb22
 $setglobal labor_prod  off
-$setglobal factor_costs  sticky_feb18
+$setglobal factor_costs  sticky_regional
 $setglobal landconversion  calib
 
 $setglobal transport  gtap_nov12
@@ -276,7 +276,7 @@ $setglobal som  static_jan19
 
 $setglobal bioenergy  1stgen_priced_dec18
 $setglobal material  exo_flexreg_apr16
-$setglobal livestock  fbask_jan16
+$setglobal livestock  fbask_regcost_feb22
 
 $setglobal disagg_lvst  foragebased_aug18
 

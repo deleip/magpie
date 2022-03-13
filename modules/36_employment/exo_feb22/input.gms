@@ -26,9 +26,9 @@ $offdelim
 /
 ;
 
-table f36_agg_weight(t_all,iso) Total hours worked based on ILO data for 2015 as aggregation weigth for hourly costs
+table f36_historic_ag_empl(t_all,iso) Historical values of mio. people employed in agruculture
 $ondelim
-$include "./modules/36_employment/exo_feb22/input/f36_agg_weight.csv"
+$include "./modules/36_employment/exo_feb22/input/f36_historic_ag_emplyoment.csv"
 $offdelim
 ;
 
