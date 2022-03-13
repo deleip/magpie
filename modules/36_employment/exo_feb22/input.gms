@@ -28,7 +28,7 @@ $offdelim
 
 table f36_historic_ag_empl(t_all,iso) Historical values of mio. people employed in agruculture
 $ondelim
-$include "./modules/36_employment/exo_feb22/input/f36_historic_ag_emplyoment.csv"
+$include "./modules/36_employment/exo_feb22/input/f36_historic_ag_employment.csv"
 $offdelim
 ;
 
