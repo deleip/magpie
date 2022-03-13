@@ -12,6 +12,12 @@ $include "./modules/36_employment/exo_feb22/input/f36_weekly_hours.csv"
 $offdelim
 ;
 
+table f36_weekly_hours_iso(t_all,iso) Historical values of average weekly hours worked per person in agriculture on iso level
+$ondelim
+$include "./modules/36_employment/exo_feb22/input/f36_weekly_hours_iso.csv"
+$offdelim
+;
+
 table f36_hist_hourly_costs(t_all,iso) Parameters for regression of hourly labor costs with GDPpcMER
 $ondelim
 $include "./modules/36_employment/exo_feb22/input/f36_historic_hourly_labor_costs.csv"
