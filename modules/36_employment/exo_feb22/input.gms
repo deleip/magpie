@@ -44,9 +44,9 @@ $include "./modules/36_employment/exo_feb22/input/f36_unspecified_subsidies.csv"
 $offdelim
 ;
 
-table f36_nonmagpie_vop(t_all,i) Factor cost share of VoP from ag commodities not mapped to MAgPIE
+table f36_nonmagpie_factor_costs(t_all,i) Factor cost share of VoP from ag commodities not mapped to MAgPIE
 $ondelim
-$include "./modules/36_employment/exo_feb22/input/f36_nonmagpie_vop.csv"
+$include "./modules/36_employment/exo_feb22/input/f36_nonmagpie_factor_costs.csv"
 $offdelim
 ;
 

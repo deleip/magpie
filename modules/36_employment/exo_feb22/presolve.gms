@@ -25,4 +25,4 @@ p36_capital_cost_share(t,i) = f36_regr_cap_share("slope")*log10(sum(i_to_iso(i,i
 );
 
 * non-MAgPIE labor costs
-p36_nonmagpie_labor_costs(t,i) = (f36_unspecified_subsidies(t,i) + f36_nonmagpie_vop(t,i)) * (1-p36_capital_cost_share(t,i))
+p36_nonmagpie_labor_costs(t,i) = (f36_unspecified_subsidies(t,i) + f36_nonmagpie_factor_costs(t,i)) * (1-p36_capital_cost_share(t,i))
