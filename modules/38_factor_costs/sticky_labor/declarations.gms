@@ -26,6 +26,7 @@ parameters
  p38_capital_need(t,i,kcr,mobil38)     Capital requirements per unit of output (USD05MER per ton DM)
  p38_capital_immobile(t,j,kcr)         Preexisting immobile capital stocks before investment (mio USD05MER)
  p38_capital_mobile(t,j)               Preexisting mobile capital stocks before investment (mio USD05MER)
+ pm_labor_subsidy(t)                   Share of labor costs covered by subsidies (1)
 
  p38_cost_share(t,i,req)               Capital and labor shares of the regional factor costs for crop production   (1)
  p38_share_calibration(i)              Summation factor used to calibrate calculated capital shares with historical values (1)

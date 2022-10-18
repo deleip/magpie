@@ -8,6 +8,10 @@
 $setglobal c38_fac_req  glo
 * options: glo, reg
 
+scalars
+s38_labor_subsidy Share of labor costs covered by subsidies (1) / 0.3 /
+;
+
 parameter f38_fac_req(kcr) Factor requirement costs in 2005 (USD05MER per tDM)
 /
 $ondelim

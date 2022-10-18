@@ -31,3 +31,10 @@ elseif (m_year(t)>=2010),
 p38_cost_share(t,i,"capital") = f38_reg_parameters("slope")*log10(sum(i_to_iso(i,iso),im_gdp_pc_ppp_iso(t,iso)))+f38_reg_parameters("intercept")+p38_share_calibration(i);
 p38_cost_share(t,i,"labor")   = 1 - p38_cost_share(t,i,"capital");
 );
+
+* Labor subsidies
+if (m_year(t)<2020,
+    pm_labor_subsidy(t) = 0;
+elseif (m_year(t)>=2020),
+    pm_labor_subsidy(t) = s38_labor_subsidy;
+);

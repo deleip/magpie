@@ -50,3 +50,11 @@ else
     p38_capital_mobile(t,j)=p38_capital_mobile(t,j)*(1-s38_depreciation_rate)**(m_timestep_length);
 
     );
+
+
+* Labor subsidies
+if (m_year(t)<2020,
+    pm_labor_subsidy(t) = 0;
+elseif (m_year(t)>=2020),
+    pm_labor_subsidy(t) = s38_labor_subsidy;
+);

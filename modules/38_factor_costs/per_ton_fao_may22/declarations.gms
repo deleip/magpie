@@ -18,6 +18,7 @@ parameter
 p38_cost_share(t,i,req)       Capital and labor shares of the regional factor costs for crop production   (1)
 p38_share_calibration(i)      Summation factor used to calibrate calculated capital shares with historical values (1)
 i38_fac_req(t_all,i,kcr)      Factor requirements (USD05MER per tDM)
+pm_labor_subsidy(t)           Share of labor costs covered by subsidies (1)
 ;
 
 *#################### R SECTION START (OUTPUT DECLARATIONS) ####################

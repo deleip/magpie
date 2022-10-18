@@ -13,6 +13,7 @@ scalars
 s38_depreciation_rate depreciation rate (share of costs)  / 0.05 /
 * Share of immobile capital.
 s38_immobile  immobile capital (share) / 1 /
+s38_labor_subsidy Share of labor costs covered by subsidies (1) / 0.3 /
 ;
 
 parameter f38_fac_req(kcr) Factor requirement costs in 2005 (USD05MER per tDM)

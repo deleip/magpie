@@ -26,8 +26,8 @@
 *' (in hours) per output unit and wages from [36_employment].
 
 q38_cost_prod_labor(i2).. vm_cost_prod_crop(i2,"labor")
-                              =e= sum(kcr,sum(cell(i2,j2), vm_prod(j2,kcr) * v38_laborhours_need(j2,kcr) * sum(ct, pm_hourly_costs(ct,i2,"scenario"))))
-                                ;
+                              =e= sum(kcr,sum(cell(i2,j2), vm_prod(j2,kcr) * v38_laborhours_need(j2,kcr) * 
+                                      sum(ct, pm_hourly_costs(ct,i2,"scenario") * (1-pm_labor_subsidy(ct)))));
 
 *' Investment costs: Investment are the summation of investment in mobile and immobile capital. The costs are annuitized,
 *' and corrected to make sure that the annual depreciation of the current time-step is accounted for.
