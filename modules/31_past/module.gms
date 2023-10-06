@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -14,9 +14,10 @@
 *' different pasture carbon pools. Furthermore, it delivers regional production
 *' costs associated with pastures and biodiversity values for pasture and rangeland.
 *'
-*' @authors Isabelle Weindl, Jan Philipp Dietrich
+*' @authors Isabelle Weindl, Jan Philipp Dietrich, Marcos Alves
 
 *###################### R SECTION START (MODULETYPES) ##########################
 $Ifi "%past%" == "endo_jun13" $include "./modules/31_past/endo_jun13/realization.gms"
+$Ifi "%past%" == "grasslands_apr22" $include "./modules/31_past/grasslands_apr22/realization.gms"
 $Ifi "%past%" == "static" $include "./modules/31_past/static/realization.gms"
 *###################### R SECTION END (MODULETYPES) ############################

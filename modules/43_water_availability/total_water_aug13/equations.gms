@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -14,7 +14,7 @@
 *' cluster, the sum of water withdrawals in all sectors `vm_watdem`
 *' does not exceed available water from all sources `v43_watavail`.
 *' The local seasonal water constraints is the sum of the amount of water needed
-*' in the sectors defined by `wat_dem` (agriculture, industry, electricity,
+*' in the sectors defined by `wat_dem` (agriculture, manufacturing, electricity,
 *' domestic and ecosystem). This value must be lower than the sum of the Amount of
 *' water available from different sources in the sectors defined by `wat_src` (surface,
 *' ground, technical and renewable groundwater).

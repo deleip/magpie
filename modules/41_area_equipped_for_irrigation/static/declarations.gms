@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -10,7 +10,7 @@ variables
 ;
 
 positive variables
- v41_AEI(j)                      Area equipped for irrigation in each grid cell (mio. ha)
+ vm_AEI(j)                       Area equipped for irrigation in each grid cell (mio. ha)
 ;
 
 equations
@@ -20,7 +20,7 @@ equations
 *#################### R SECTION START (OUTPUT DECLARATIONS) ####################
 parameters
  ov_cost_AEI(t,i,type)     Irrigation expansion costs (mio. USD04MER)
- ov41_AEI(t,j,type)        Area equipped for irrigation in each grid cell (mio. ha)
+ ov_AEI(t,j,type)          Area equipped for irrigation in each grid cell (mio. ha)
  oq41_area_irrig(t,j,type) Irrigation area constraint (mio. ha)
 ;
 *##################### R SECTION END (OUTPUT DECLARATIONS) #####################

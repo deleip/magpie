@@ -1,15 +1,16 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
 *** |  MAgPIE License Exception, version 1.0 (see LICENSE file).
 *** |  Contact: magpie@pik-potsdam.de
 
-*' @description 
+*' @description
 *'
-*' This realization models agricultural sector water demand endogenously, as described in the first realization,
-*' Industry, electricity and domestic demand are also modelled endogenously with various scenarios;
-*' Various settings (same ias in previous realization) for environmental water demand described below.
+*' This realization models agricultural sector water withdrawals endogenously,
+*' as described in the first realization.
+*' Manufacturing, electricity and domestic demand are explicitly accounted for in various scenarios;
+*' Various settings (same as in previous realization) for environmental water demand described below.
 *'
 *' *Agricultural water demand*:
 *'
@@ -17,14 +18,14 @@
 *' cropland `vm_area(j,kcr,"irrigated")` and livestock production
 *' `vm_prod(j,kli)`.
 *'
-*' *Non agricultural human water demand*:
+*' *Non agricultural human water withdrawals*:
 *'
-*' For industry, electricity and domestic demand, three scenarios are available
-*' on cluster level from the model by @watergap_water_2003:
+*' For manufacturing, electricity and domestic withdrawals, three scenarios of the
+*' WATERGAP model provided by @wada_modeling_2016 are used:
 *'
-*' * SRES A2 (WATCH Project)
-*' * SRES B1 (WATCH Project)
-*' * SSP2 (ISI-MIP Project)
+*' * SSP1
+*' * SSP2
+*' * SSP3
 *'
 *' Due to the fact that MAgPIE only considers available blue water during the
 *' growing period of the plants ([43_water_availability]), the fraction of this
@@ -43,13 +44,16 @@
 *'   for environmental purposes and consequently not available for agricultural
 *'   activities (in addition to `s42_reserved_fraction`).
 *' * Environmental flow requirements (EFR) are calculated from LPJmL inputs
-*'   according to an algorithm by  @smakhtin_water_2004 on cluster level. Due to
+*'   according to an algorithm by @smakhtin_water_2004 on cluster level. Due to
 *'   the fact that MAgPIE only considers available blue water during the growing
 *'   period of the plants [43_water_availability], EFR are also only calculated
 *'   during this growing period. These are reserved in addition to
 *'   `s42_protected_fraction`. In the case of the absence of an environmental
 *'   flow protection policy, a base protection can be specified:
 *'   `s42_env_flow_base_fraction`. It defaults to 5 % of available water.
+*'
+*' The speed of transitioning to full environmental flow protection is determined
+*' by specifying the start (`s42_efp_startyear`) and target (`s42_efp_targetyear`) year.
 *'
 *' @limitations The module uses the "conveyance efficiency times management
 *' factor" for irrigation efficiency. Therefore, the management factor is

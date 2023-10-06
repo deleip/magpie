@@ -1,4 +1,4 @@
-# |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+# |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 # |  authors, and contributors see CITATION.cff file. This file is part
 # |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 # |  AGPL-3.0, you are granted additional permissions described in the
@@ -25,6 +25,7 @@
 library(lucode2)
 library(magpie4)
 library(luscale)
+library(gms)
 
 ############################# BASIC CONFIGURATION #######################################
 land_lr_file     <- "avl_land_t.cs3"
@@ -45,7 +46,7 @@ if(!exists("source_include")) {
 }
 #########################################################################################
 
-load(paste0(outputdir, "/config.Rdata"))
+cfg <- gms::loadConfig(file.path(outputdir, "config.yml"))
 title <- cfg$title
 print(title)
 

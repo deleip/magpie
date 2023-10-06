@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -13,13 +13,15 @@
 *' This approach also accounts for the temporal dimension of soil organic carbon change,
 *' since it assumes a gradual step of 15% in the direction of the new equilibrium soil
 *' organic carbon pool each year. Stock change factors tracks crop types as well as
-*' management (e.g. irrigation) and input differences on cropland. 
+*' management (e.g. irrigation) and input differences on cropland.
 
 *' @limitations It is assumed that pastures and rangelandes as well as managed forests
-*' do not change in soil carbon compared to the natural reference state.
+*' do not change in soil carbon compared to the natural reference state. Moreover only
+*' transitions from other land and primary forest to secondary forest between optimization
+*' steps (due to natural regrowth and disturbance loss) are accounted for.
 
 
-*' @authors Benjamin Leon Bodirsky, Kristine Karstens
+*' @authors Kristine Karstens, Benjamin Leon Bodirsky
 
 
 

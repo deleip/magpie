@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -95,17 +95,17 @@ if (sum(sameas(t_past,t),1) = 1,
                                  i15_livestock_kcal_structure_iso_raw(t,iso,"livst_rum") * i15_rum_share_fadeout(t,iso);
 
 * Substitute milk demand in India with chicken, egg and fish (equally distributed) because milk demand in India shows an implausible increase
-    	i15_livestock_kcal_structure_iso(t,"IND","livst_milk") =
+      i15_livestock_kcal_structure_iso(t,"IND","livst_milk") =
                                  i15_livestock_kcal_structure_iso_raw(t,"IND","livst_milk") * i15_milk_share_fadeout_india(t);
-    	i15_livestock_kcal_structure_iso(t,"IND","livst_chick") =
-     							i15_livestock_kcal_structure_iso(t,"IND","livst_chick")
-     							+ i15_livestock_kcal_structure_iso_raw(t,"IND","livst_milk") * (1-i15_milk_share_fadeout_india(t)) * 1/3;
-    	i15_livestock_kcal_structure_iso(t,"IND","livst_egg") =
-     							i15_livestock_kcal_structure_iso(t,"IND","livst_egg")
-     							+ i15_livestock_kcal_structure_iso_raw(t,"IND","livst_milk") * (1-i15_milk_share_fadeout_india(t)) * 1/3;
-    	i15_livestock_kcal_structure_iso(t,"IND","fish") =
-     							i15_livestock_kcal_structure_iso(t,"IND","fish")
-     							+ i15_livestock_kcal_structure_iso_raw(t,"IND","livst_milk") * (1-i15_milk_share_fadeout_india(t)) * 1/3;
+      i15_livestock_kcal_structure_iso(t,"IND","livst_chick") =
+                  i15_livestock_kcal_structure_iso(t,"IND","livst_chick")
+                  + i15_livestock_kcal_structure_iso_raw(t,"IND","livst_milk") * (1-i15_milk_share_fadeout_india(t)) * 1/3;
+      i15_livestock_kcal_structure_iso(t,"IND","livst_egg") =
+                  i15_livestock_kcal_structure_iso(t,"IND","livst_egg")
+                  + i15_livestock_kcal_structure_iso_raw(t,"IND","livst_milk") * (1-i15_milk_share_fadeout_india(t)) * 1/3;
+      i15_livestock_kcal_structure_iso(t,"IND","fish") =
+                  i15_livestock_kcal_structure_iso(t,"IND","fish")
+                  + i15_livestock_kcal_structure_iso_raw(t,"IND","livst_milk") * (1-i15_milk_share_fadeout_india(t)) * 1/3;
  );
 
 
@@ -240,10 +240,10 @@ solve m15_food_demand USING nlp MAXIMIZING v15_objective;
 
 * in case of problems try CONOPT3
 if(m15_food_demand.modelstat > 2,
-	display "Modelstat > 2 | Retry solve with CONOPT3";
-	option nlp = conopt;
-	solve m15_food_demand USING nlp MAXIMIZING v15_objective;
-	option nlp = conopt4;
+  display "Modelstat > 2 | Retry solve with CONOPT3";
+  option nlp = conopt;
+  solve m15_food_demand USING nlp MAXIMIZING v15_objective;
+  option nlp = conopt4;
 );
 
 p15_modelstat(t) = m15_food_demand.modelstat;
@@ -429,14 +429,14 @@ p15_kcal_pc_calibrated(t,i,kfo_pp) = p15_plant_kcal_structure_orig(t,i,kfo_pp)
                + p15_kcal_pc_calibrated_rumdairy_orig(t,i) * (1-i15_rumdairy_fadeout(t,i)));
 
 *** Substitution of ruminant meat and dairy products (kfo_rd) with single-cell protein (SCP) based on protein/cap/day
-i15_protein_to_kcal_ratio(t,kfo) =  f15_nutrition_attributes(t,kfo,"protein")/f15_nutrition_attributes(t,kfo,"kcal");
-* Before the substitution, kfo_rd is converted from kcal/cap/day to g protein/cap/day 
+i15_protein_to_kcal_ratio(t,kfo) =  fm_nutrition_attributes(t,kfo,"protein")/fm_nutrition_attributes(t,kfo,"kcal");
+* Before the substitution, kfo_rd is converted from kcal/cap/day to g protein/cap/day
 * using i15_protein_to_kcal_ratio(t,kfo_rd).
 * After the substitution of kfo_rd with SCP (1-i15_rumdairy_scp_fadeout), SCP is converted
 * back to kcal/cap/day using i15_protein_to_kcal_ratio(t,"scp").
 p15_kcal_pc_calibrated(t,i,"scp") = p15_kcal_pc_calibrated(t,i,"scp") +
-	sum(kfo_rd, p15_kcal_pc_calibrated(t,i,kfo_rd) * (1-i15_rumdairy_scp_fadeout(t,i)) * 
-	i15_protein_to_kcal_ratio(t,kfo_rd)) / i15_protein_to_kcal_ratio(t,"scp");
+  sum(kfo_rd, p15_kcal_pc_calibrated(t,i,kfo_rd) * (1-i15_rumdairy_scp_fadeout(t,i)) *
+  i15_protein_to_kcal_ratio(t,kfo_rd)) / i15_protein_to_kcal_ratio(t,"scp");
 p15_kcal_pc_calibrated(t,i,kfo_rd) = p15_kcal_pc_calibrated(t,i,kfo_rd) * i15_rumdairy_scp_fadeout(t,i);
 
 
@@ -461,9 +461,9 @@ p15_kcal_pc_calibrated(t,i,kfo_lp) = p15_livestock_kcal_structure_orig(t,i,kfo_l
                * (p15_kcal_pc_livestock_supply_target(i)*(1-i15_livestock_fadeout_threshold(t,i))
                + p15_kcal_pc_calibrated_livestock_orig(t,i)*i15_livestock_fadeout_threshold(t,i));
 p15_kcal_pc_calibrated(t,i,kfo_pp) = p15_plant_kcal_structure_orig(t,i,kfo_pp)
-				* (p15_kcal_pc_calibrated_plant_orig(t,i)
-			    + (p15_kcal_pc_calibrated_livestock_orig(t,i) -
-			    sum(kfo_lp, p15_kcal_pc_calibrated(t,i,kfo_lp))) * s15_livescen_target_subst);
+        * (p15_kcal_pc_calibrated_plant_orig(t,i)
+          + (p15_kcal_pc_calibrated_livestock_orig(t,i) -
+          sum(kfo_lp, p15_kcal_pc_calibrated(t,i,kfo_lp))) * s15_livescen_target_subst);
 );
 
 
@@ -555,6 +555,17 @@ p15_foodwaste_growth(t,i) = ( 1$(p15_demand2intake_ratio_ref(i) = 0)
 if(s15_exo_diet = 1,
 
 
+* Select from the data set of EAT Lancet scenarios the target years that are
+* consistent with the target year of the fader:
+
+$ifthen "%c15_exo_foodscen%" == "lin_zero_20_30"
+  i15_intake_EATLancet_all(i,kcal_scen15,EAT_scen15,kfo) = f15_intake_EATLancet("y2030",i,kcal_scen15,EAT_scen15,kfo);
+$else
+  i15_intake_EATLancet_all(i,kcal_scen15,EAT_scen15,kfo) = f15_intake_EATLancet("y2050",i,kcal_scen15,EAT_scen15,kfo);
+$endif
+
+
+
 *' 1.) In a first step, the exogenous scenario diets are defined by selecting a
 *' scenario target for total daily per capita food intake and by choosing
 *' food-specific dietary patterns:
@@ -567,11 +578,11 @@ $ifthen "%c15_kcal_scen%" == "healthy_BMI"
              sum((sex,age), im_demography(t,iso,sex,age))
          );
   i15_intake_EATLancet(i,kfo) =
-        f15_intake_EATLancet("%c15_exo_scen_targetyear%",i,"2100kcal","%c15_EAT_scen%",kfo);
+        i15_intake_EATLancet_all(i,"2100kcal","%c15_EAT_scen%",kfo);
 $else
   i15_intake_EATLancet(i,kfo) =
-      f15_intake_EATLancet("%c15_exo_scen_targetyear%",i,"%c15_kcal_scen%","%c15_EAT_scen%",kfo);
-      i15_intake_scen_target(t,i) = sum(kfo,i15_intake_EATLancet(i,kfo));
+        i15_intake_EATLancet_all(i,"%c15_kcal_scen%","%c15_EAT_scen%",kfo);
+        i15_intake_scen_target(t,i) = sum(kfo,i15_intake_EATLancet(i,kfo));
 $endif
 
 
@@ -583,7 +594,7 @@ $endif
 * Food-specific calorie intake of the model-internal diet projections is
 * estimated from daily per capita food calorie demand:
 p15_intake_detailed_regr(t,i,kfo) = p15_kcal_pc_calibrated(t,i,kfo)
-	 	/(f15_calib_fsupply(i)*f15_overcons_FAOwaste(i,kfo)*p15_foodwaste_growth(t,i));
+    /(f15_calib_fsupply(i)*f15_overcons_FAOwaste(i,kfo)*p15_foodwaste_growth(t,i));
 
 
 i15_intake_detailed_scen_target(t,i,EAT_nonstaples) = i15_intake_EATLancet(i,EAT_nonstaples);
@@ -593,7 +604,7 @@ i15_intake_detailed_scen_target(t,i,EAT_nonstaples) = i15_intake_EATLancet(i,EAT
 if(s15_alc_scen>0,
 i15_intake_detailed_scen_target(t,i,"alcohol") = p15_intake_detailed_regr(t,i,"alcohol");
 i15_intake_detailed_scen_target(t,i,"alcohol")$(i15_intake_detailed_scen_target(t,i,"alcohol") > s15_alc_scen*i15_intake_scen_target(t,i))
-	= s15_alc_scen*i15_intake_scen_target(t,i);
+  = s15_alc_scen*i15_intake_scen_target(t,i);
 );
 
 i15_intake_detailed_scen_target(t,i,EAT_staples) = (

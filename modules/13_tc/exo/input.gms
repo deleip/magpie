@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -27,8 +27,15 @@ $include "./modules/13_tc/input/f13_tc_exponent.cs3"
 $offdelim
 ;
 
-table f13_tau_scenario(t_all,h) tau scenario (1)
+
+table f13_tau_scenario(t_all,h,tautype) tau scenario (1)
 $ondelim
 $include "./modules/13_tc/input/f13_tau_scenario.csv"
+$offdelim
+;
+
+table fm_pastr_tau_hist(t_all,h) Historical managed pasture tau (1)
+$ondelim
+$include "./modules/13_tc/input/f13_pastr_tau_hist.csv"
 $offdelim
 ;

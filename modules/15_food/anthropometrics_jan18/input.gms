@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -18,7 +18,8 @@ $setglobal c15_calibscen  constant
 $setglobal c15_rum_share  mixed
 *   options:   constant, halving2050, mixed
 
-* Food substitution scenarios including functional forms, targets and transition periods
+* Fader for food substitution scenarios and exogenous food intake and waste
+* scenarios including functional forms, targets and transition periods
 *   options:   constant,
 *              lin_zero_10_50, lin_zero_20_50, lin_zero_20_30, lin_50pc_20_50, lin_50pc_20_50_extend65, lin_50pc_20_50_extend80,
 *              lin_50pc_10_50_extend90, lin_75pc_10_50_extend90, lin_80pc_20_50, lin_80pc_20_50_extend95, lin_90pc_20_50_extend95,
@@ -30,10 +31,7 @@ $setglobal c15_livescen  constant
 $setglobal c15_rumdairyscen  constant
 $setglobal c15_rumdairy_scp_scen  constant
 $setglobal c15_livescen_target  constant
-
-
-$setglobal c15_exo_scen_targetyear  y2050
-*   options:   y2030, y2050
+$setglobal c15_exo_foodscen  lin_zero_20_50
 
 $setglobal c15_kcal_scen  healthy_BMI
 *   options:   healthy_BMI, 2100kcal, 2500kcal
@@ -46,34 +44,34 @@ $setglobal c15_EAT_scen  FLX
 * Default: all iso countries selected
 sets
   scen_countries15(iso) countries to be affected by selected food sceanrio / ABW,AFG,AGO,AIA,ALA,ALB,AND,ARE,ARG,ARM,
-                          ASM,ATA,ATF,ATG,AUS,AUT,AZE,BDI,BEL,BEN,
-                          BES,BFA,BGD,BGR,BHR,BHS,BIH,BLM,BLR,BLZ,
-                          BMU,BOL,BRA,BRB,BRN,BTN,BVT,BWA,CAF,CAN,
-                          CCK,CHN,CHE,CHL,CIV,CMR,COD,COG,COK,COL,
-                          COM,CPV,CRI,CUB,CUW,CXR,CYM,CYP,CZE,DEU,
-                          DJI,DMA,DNK,DOM,DZA,ECU,EGY,ERI,ESH,ESP,
-                          EST,ETH,FIN,FJI,FLK,FRA,FRO,FSM,GAB,GBR,
-                          GEO,GGY,GHA,GIB,GIN,GLP,GMB,GNB,GNQ,GRC,
-                          GRD,GRL,GTM,GUF,GUM,GUY,HKG,HMD,HND,HRV,
-                          HTI,HUN,IDN,IMN,IND,IOT,IRL,IRN,IRQ,ISL,
-                          ISR,ITA,JAM,JEY,JOR,JPN,KAZ,KEN,KGZ,KHM,
-                          KIR,KNA,KOR,KWT,LAO,LBN,LBR,LBY,LCA,LIE,
-                          LKA,LSO,LTU,LUX,LVA,MAC,MAF,MAR,MCO,MDA,
-                          MDG,MDV,MEX,MHL,MKD,MLI,MLT,MMR,MNE,MNG,
-                          MNP,MOZ,MRT,MSR,MTQ,MUS,MWI,MYS,MYT,NAM,
-                          NCL,NER,NFK,NGA,NIC,NIU,NLD,NOR,NPL,NRU,
-                          NZL,OMN,PAK,PAN,PCN,PER,PHL,PLW,PNG,POL,
-                          PRI,PRK,PRT,PRY,PSE,PYF,QAT,REU,ROU,RUS,
-                          RWA,SAU,SDN,SEN,SGP,SGS,SHN,SJM,SLB,SLE,
-                          SLV,SMR,SOM,SPM,SRB,SSD,STP,SUR,SVK,SVN,
-                          SWE,SWZ,SXM,SYC,SYR,TCA,TCD,TGO,THA,TJK,
-                          TKL,TKM,TLS,TON,TTO,TUN,TUR,TUV,TWN,TZA,
-                          UGA,UKR,UMI,URY,USA,UZB,VAT,VCT,VEN,VGB,
-                          VIR,VNM,VUT,WLF,WSM,YEM,ZAF,ZMB,ZWE /
+                      ASM,ATA,ATF,ATG,AUS,AUT,AZE,BDI,BEL,BEN,
+                      BES,BFA,BGD,BGR,BHR,BHS,BIH,BLM,BLR,BLZ,
+                      BMU,BOL,BRA,BRB,BRN,BTN,BVT,BWA,CAF,CAN,
+                      CCK,CHN,CHE,CHL,CIV,CMR,COD,COG,COK,COL,
+                      COM,CPV,CRI,CUB,CUW,CXR,CYM,CYP,CZE,DEU,
+                      DJI,DMA,DNK,DOM,DZA,ECU,EGY,ERI,ESH,ESP,
+                      EST,ETH,FIN,FJI,FLK,FRA,FRO,FSM,GAB,GBR,
+                      GEO,GGY,GHA,GIB,GIN,GLP,GMB,GNB,GNQ,GRC,
+                      GRD,GRL,GTM,GUF,GUM,GUY,HKG,HMD,HND,HRV,
+                      HTI,HUN,IDN,IMN,IND,IOT,IRL,IRN,IRQ,ISL,
+                      ISR,ITA,JAM,JEY,JOR,JPN,KAZ,KEN,KGZ,KHM,
+                      KIR,KNA,KOR,KWT,LAO,LBN,LBR,LBY,LCA,LIE,
+                      LKA,LSO,LTU,LUX,LVA,MAC,MAF,MAR,MCO,MDA,
+                      MDG,MDV,MEX,MHL,MKD,MLI,MLT,MMR,MNE,MNG,
+                      MNP,MOZ,MRT,MSR,MTQ,MUS,MWI,MYS,MYT,NAM,
+                      NCL,NER,NFK,NGA,NIC,NIU,NLD,NOR,NPL,NRU,
+                      NZL,OMN,PAK,PAN,PCN,PER,PHL,PLW,PNG,POL,
+                      PRI,PRK,PRT,PRY,PSE,PYF,QAT,REU,ROU,RUS,
+                      RWA,SAU,SDN,SEN,SGP,SGS,SHN,SJM,SLB,SLE,
+                      SLV,SMR,SOM,SPM,SRB,SSD,STP,SUR,SVK,SVN,
+                      SWE,SWZ,SXM,SYC,SYR,TCA,TCD,TGO,THA,TJK,
+                      TKL,TKM,TLS,TON,TTO,TUN,TUR,TUV,TWN,TZA,
+                      UGA,UKR,UMI,URY,USA,UZB,VAT,VCT,VEN,VGB,
+                      VIR,VNM,VUT,WLF,WSM,YEM,ZAF,ZMB,ZWE /
 ;
 
 $onMultiR
-set    kfo_rd(kfo) Ruminant meat and dairy food products / livst_rum,livst_milk /;
+set    kfo_rd(kfo) Ruminant meat and dairy food products / livst_rum /;
 $offMulti
 
 scalar s15_elastic_demand  Elastic demand switch (1=elastic 0=exogenous) (1) / 0 /;
@@ -94,9 +92,9 @@ scalar s15_exo_diet Switch for transition towards exogenous diet scenario (1)  /
 
 scalar s15_alc_scen Scenario target for the inclusion of alcohol in the EAT-Lancet diet (1)  / 0.014 /;
 
-scalar s15_rum_share_fadeout_india_strong 	switch for stronger ruminant fadeout in India (binary) / 1 /;
+scalar s15_rum_share_fadeout_india_strong   switch for stronger ruminant fadeout in India (binary) / 1 /;
 
-scalar s15_milk_share_fadeout_india 		switch for milk fadeout in India (binary) / 1 /;
+scalar s15_milk_share_fadeout_india     switch for milk fadeout in India (binary) / 1 /;
 
 scalar s15_kcal_pc_livestock_intake_target target for livestock intake (kcal per cap per day) / 430 /;
 
@@ -107,7 +105,7 @@ $ondelim
 $include "./modules/15_food/input/f15_household_balanceflow.cs3"
 $offdelim;
 
-table f15_nutrition_attributes(t_all,kall,nutrition) Nutrition attributes of food items dedicated for fooduse (mio. kcal per tDM | t Protein per tDM)
+table fm_nutrition_attributes(t_all,kall,nutrition) Nutrition attributes of food items dedicated for fooduse (mio. kcal per tDM | t Protein per tDM)
 $ondelim
 $include "./modules/15_food/input/f15_nutrition_attributes.cs3"
 $offdelim;
@@ -239,11 +237,5 @@ $ondelim
 $include "./modules/15_food/input/f15_calib_factor_FAOfsupply.cs4"
 $offdelim
 /;
-
-table f15_exo_foodscen_fader(t_all,t_scen15) Fader that converges per capita food consumption to an exogenous diet scenario until the target year (1)
-$ondelim
-$include "./modules/15_food/input/f15_exo_foodscen_fader.csv"
-$offdelim
-;
 
 *** EOF input.gms ***

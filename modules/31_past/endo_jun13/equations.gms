@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -15,13 +15,13 @@
 
 q31_prod(j2) ..
  vm_prod(j2,"pasture") =l= vm_land(j2,"past")
- 						   * vm_yld(j2,"pasture","rainfed");
+               * vm_yld(j2,"pasture","rainfed");
 
 *' On the basis of the required pasture area, cellular above ground carbon stocks are calculated:
 
-q31_carbon(j2,ag_pools) ..
- vm_carbon_stock(j2,"past",ag_pools) =e=
-         sum(ct, vm_land(j2,"past")*fm_carbon_density(ct,j2,"past",ag_pools));
+q31_carbon(j2,ag_pools,stockType) ..
+ vm_carbon_stock(j2,"past",ag_pools,stockType) =e= 
+   m_carbon_stock(vm_land,fm_carbon_density,"past");
 
 *' In the initial calibration time step, where the pasture calibration factor
 *' is calculated that brings pasture biomass demand and pasture area in balance,
@@ -29,20 +29,19 @@ q31_carbon(j2,ag_pools) ..
 *' avoid overproduction of pasture in the model:
 
 q31_cost_prod_past(i2) ..
- vm_cost_prod(i2,"pasture") =e= vm_prod_reg(i2,"pasture")
- 								* s31_fac_req_past;
+ vm_cost_prod_past(i2) =e= sum(cell(i2,j2), vm_prod(j2,"pasture")) * s31_fac_req_past;
 
 *' For all following time steps, factor requriements `s31_fac_req_past` are set
 *' to zero.
 
 *' By estimating the different area of managed pasture and rangeland via the luh2 side layers, the biodiversity value for pastures and rangeland is calculated in following:
  q31_bv_manpast(j2,potnatveg) .. vm_bv(j2,"manpast",potnatveg)
- 					=e=
- 					vm_land(j2,"past") * fm_luh2_side_layers(j2,"manpast") * fm_bii_coeff("manpast",potnatveg) * fm_luh2_side_layers(j2,potnatveg);
+          =e=
+          vm_land(j2,"past") * fm_luh2_side_layers(j2,"manpast") * fm_bii_coeff("manpast",potnatveg) * fm_luh2_side_layers(j2,potnatveg);
 
  q31_bv_rangeland(j2,potnatveg) .. vm_bv(j2,"rangeland",potnatveg)
- 					=e=
- 					vm_land(j2,"past") * fm_luh2_side_layers(j2,"rangeland") * fm_bii_coeff("rangeland",potnatveg) * fm_luh2_side_layers(j2,potnatveg);
+          =e=
+          vm_land(j2,"past") * fm_luh2_side_layers(j2,"rangeland") * fm_bii_coeff("rangeland",potnatveg) * fm_luh2_side_layers(j2,potnatveg);
 
 
 *** EOF constraints.gms ***

@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -56,31 +56,31 @@ sets
 
   j number of LPJ cells
     / CAZ_1*CAZ_6,
-      CHA_7*CHA_29,
-      EUR_30*EUR_36,
-      IND_37*IND_42,
-      JPN_43,
-      LAM_44*LAM_86,
-      MEA_87*MEA_113,
-      NEU_114*NEU_120,
-      OAS_121*OAS_131,
-      REF_132*REF_143,
-      SSA_144*SSA_180,
-      USA_181*USA_200 /
+      CHA_7*CHA_23,
+      EUR_24*EUR_32,
+      IND_33*IND_40,
+      JPN_41*JPN_41,
+      LAM_42*LAM_85,
+      MEA_86*MEA_111,
+      NEU_112*NEU_118,
+      OAS_119*OAS_128,
+      REF_129*REF_141,
+      SSA_142*SSA_179,
+      USA_180*USA_200 /
 
   cell(i,j) number of LPJ cells per region i
     / CAZ . (CAZ_1*CAZ_6)
-      CHA . (CHA_7*CHA_29)
-      EUR . (EUR_30*EUR_36)
-      IND . (IND_37*IND_42)
-      JPN . (JPN_43)
-      LAM . (LAM_44*LAM_86)
-      MEA . (MEA_87*MEA_113)
-      NEU . (NEU_114*NEU_120)
-      OAS . (OAS_121*OAS_131)
-      REF . (REF_132*REF_143)
-      SSA . (SSA_144*SSA_180)
-      USA . (USA_181*USA_200) /
+      CHA . (CHA_7*CHA_23)
+      EUR . (EUR_24*EUR_32)
+      IND . (IND_33*IND_40)
+      JPN . (JPN_41*JPN_41)
+      LAM . (LAM_42*LAM_85)
+      MEA . (MEA_86*MEA_111)
+      NEU . (NEU_112*NEU_118)
+      OAS . (OAS_119*OAS_128)
+      REF . (REF_129*REF_141)
+      SSA . (SSA_142*SSA_179)
+      USA . (USA_180*USA_200) /
 
   i_to_iso(i,iso) mapping regions to iso countries
     / CAZ . (AUS, CAN, HMD, NZL, SPM)
@@ -210,6 +210,7 @@ $If "%c_timesteps%"=="17" /y1995,y2000,y2010,y2020,y2030,y2040,y2050,y2060,y2070
 $If "%c_timesteps%"=="past" /y1965,y1970,y1975,y1980,y1985,y1990,y1995,y2000,y2005,y2010/;
 $If "%c_timesteps%"=="pastandfuture" /y1965,y1970,y1975,y1980,y1985,y1990,y1995,y2000,y2005,y2010,y2015,y2020,y2025,y2030,y2035,y2040,y2045,y2050,y2055,y2060,y2065,y2070,y2075,y2080,y2085,y2090,y2095,y2100/;
 set ct(t) Current time period;
+set pt(t) Previous time period;
 set ct_all(t_all) Current time period for loops over t_all;
 
 alias(t,t2);
@@ -237,7 +238,7 @@ sets
    wat_src Type of water source / surface, ground, technical, ren_ground /
 
 ***WATER DEMAND sectors***
-   wat_dem Water demand sectors / agriculture, industry, electricity, domestic, ecosystem /
+   wat_dem Water demand sectors / agriculture, domestic, manufacturing, electricity, ecosystem /
 
 ***LAND POOLS***
    land Land pools
@@ -299,30 +300,17 @@ sets
      primforest_vegc, primforest_litc, primforest_soilc,
 secdforest_vegc, secdforest_litc, secdforest_soilc,     urban_vegc, urban_litc, urban_soilc,
      other_vegc, other_litc, other_soilc,
-     beccs/
+     peatland/
 
-   emis_source_reg(emis_source) Regional emission sources
+   emis_oneoff(emis_source) oneoff emission sources
+   / crop_vegc, crop_litc, crop_soilc, past_vegc, past_litc, past_soilc, forestry_vegc,
+   forestry_litc, forestry_soilc, primforest_vegc, primforest_litc, primforest_soilc,
+   secdforest_vegc, secdforest_litc, secdforest_soilc,
+   urban_vegc, urban_litc, urban_soilc, other_vegc, other_litc, other_soilc /
+
+   emis_annual(emis_source) annual emission sources
    / inorg_fert, man_crop, awms, resid, man_past, som,
-     rice, ent_ferm, beccs /
-
-   emis_source_cell(emis_source) Cellular emission sources
-   / crop_vegc, crop_litc, crop_soilc,
-     past_vegc, past_litc, past_soilc,
-     forestry_vegc, forestry_litc, forestry_soilc,
-     primforest_vegc, primforest_litc, primforest_soilc,
-secdforest_vegc, secdforest_litc, secdforest_soilc,     urban_vegc, urban_litc, urban_soilc,
-     other_vegc, other_litc, other_soilc /
-
-   emis_co2(emis_source_cell) Land pool CO2 emission sources
-   / crop_vegc, crop_litc, crop_soilc,
-     past_vegc, past_litc, past_soilc,
-     forestry_vegc, forestry_litc, forestry_soilc,
-     primforest_vegc, primforest_litc, primforest_soilc,
-secdforest_vegc, secdforest_litc, secdforest_soilc,     urban_vegc, urban_litc, urban_soilc,
-     other_vegc, other_litc, other_soilc /
-
-   co2_forestry(emis_source_cell) Sources of forestry land CO2 emissions
-   /forestry_vegc, forestry_litc, forestry_soilc/
+   rice, ent_ferm, resid_burn, peatland /
 
    c_pools Carbon pools
    /vegc,litc,soilc/
@@ -332,7 +320,7 @@ secdforest_vegc, secdforest_litc, secdforest_soilc,     urban_vegc, urban_litc, 
 
 ***RELATIONSHIPS BETWEEN DIFFERENT SETS***
 
-  emis_land(emis_co2,land,c_pools) Mapping between land and carbon pools
+  emis_land(emis_oneoff,land,c_pools) Mapping between land and carbon pools
   /crop_vegc        . (crop) . (vegc)
    crop_litc        . (crop) . (litc)
    crop_soilc       . (crop) . (soilc)
@@ -354,12 +342,6 @@ secdforest_vegc, secdforest_litc, secdforest_soilc,     urban_vegc, urban_litc, 
    other_vegc       . (other) . (vegc)
    other_litc       . (other) . (litc)
    other_soilc      . (other) . (soilc)
-   /
-
-   emis_co2_to_forestry(co2_forestry,c_pools) Mapping between forestry land and carbon pools
-  /forestry_vegc    . (vegc)
-   forestry_litc    . (litc)
-   forestry_soilc   . (soilc)
    /
 
 ;

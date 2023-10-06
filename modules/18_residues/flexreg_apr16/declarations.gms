@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -13,6 +13,7 @@ positive variables
  v18_res_ag_recycling(i,kcr,attributes)     Recylcing of crop residues to soils in respective attribute units DM GJ Nr P K WM C (mio. tX)
  vm_res_ag_burn(i,kcr,attributes)           Residues burned on fields in respective attribute units DM GJ Nr P K WM C (mio. tX)
  vm_res_recycling(i,npk)                    Residues recycled to croplands in respective nutrients Nr P K units (mio. tX)
+ vm_cost_prod_kres(i,kres)                  Production costs of harvesting crop residues (mio. USD05MER per yr)
 ;
 
 equations
@@ -42,6 +43,7 @@ parameters
  ov18_res_ag_recycling(t,i,kcr,attributes,type)  Recylcing of crop residues to soils in respective attribute units DM GJ Nr P K WM C (mio. tX)
  ov_res_ag_burn(t,i,kcr,attributes,type)         Residues burned on fields in respective attribute units DM GJ Nr P K WM C (mio. tX)
  ov_res_recycling(t,i,npk,type)                  Residues recycled to croplands in respective nutrients Nr P K units (mio. tX)
+ ov_cost_prod_kres(t,i,kres,type)                Production costs of harvesting crop residues (mio. USD05MER per yr)
  oq18_prod_res_ag_reg(t,i,kcr,attributes,type)   Production constraint of aboveground residues (mio. tDM)
  oq18_prod_res_bg_reg(t,i,kcr,dm_nr,type)        Production constraint of belowground residues (mio. tDM)
  oq18_res_field_balance(t,i,kcr,attributes,type) Calculation of the residues amount recycled to soils (mio. tDM)

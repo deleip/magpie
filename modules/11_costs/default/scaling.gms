@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -8,5 +8,3 @@
 vm_cost_glo.scale = 10e7;
 v11_cost_reg.scale(i) = 10e6;
 vm_cost_transp.scale(j,k) = 10e3;
-vm_emission_costs.scale(i) = 10e4;
-vm_maccs_costs.scale(i) = 10e4;

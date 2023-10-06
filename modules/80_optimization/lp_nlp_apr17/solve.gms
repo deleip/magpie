@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -37,7 +37,7 @@ $endif
 
 $onecho > conopt4.opt
 Tol_Obj_Change = 3.0e-6
-Tol_Feas_Min = 4.0e-7
+Tol_Feas_Min = 4.0e-10
 Tol_Feas_Max = 4.0e-6
 Tol_Feas_Tria = 4.0e-6
 $offecho
@@ -72,7 +72,7 @@ $batinclude "./modules/include.gms" nl_fix
 *' of the previous optimization as upper bound and minimizing the land
 *' differences.
 
-    if((magpie.modelstat=1 or magpie.modelstat = 7),
+    if ((magpie.modelstat=1 or magpie.modelstat = 7),
       vm_cost_glo.up = vm_cost_glo.l;
       solve magpie USING nlp MINIMIZING vm_landdiff;
       vm_cost_glo.up = Inf;
@@ -142,13 +142,13 @@ $batinclude "./modules/include.gms" nl_relax
 * if solve stopped with an error, try it again without pre-processing
     if((magpie.modelstat = 13),
       display "WARNING: Modelstat 13 | retry without Conopt4 pre-processing";
-	  magpie.optfile = 2 
+    magpie.optfile = 2
       solve magpie USING nlp MINIMIZING vm_cost_glo;
       magpie.optfile   = s80_optfile ;
     );
 
 * if solve stopped with an error, try it again with conopt3
-  if((magpie.modelstat = 13),
+  if ((magpie.modelstat = 13),
     display "WARNING: Modelstat 13 | retry with CONOPT3!";
     option nlp = conopt;
     solve magpie USING nlp MINIMIZING vm_cost_glo;
@@ -165,13 +165,13 @@ $batinclude "./modules/include.gms" nl_relax
 
 
 * write extended run information in list file in the case that the final solution is infeasible
-  if((s80_counter >= s80_maxiter and p80_modelstat(t) > 2 and p80_modelstat(t) ne 7),
+  if ((s80_counter >= s80_maxiter and p80_modelstat(t) > 2),
     magpie.solprint = 1
   );
 
   display s80_counter;
 
-  until ((p80_modelstat(t) <= 2 and p80_num_nonopt(t) <= s80_num_nonopt_allowed) or s80_counter >= s80_maxiter)
+  until (p80_modelstat(t) <= 2 or s80_counter >= s80_maxiter)
 );
 
 * if s80_add_cplex is 1 add additional solve statement for cplex

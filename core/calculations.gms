@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -32,15 +32,23 @@ file dummy; dummy.pw=2000; put dummy;
 
 * clear ct set
 ct(t) = no;
+pt(t) = no;
 
 ***************************TIMESTEP LOOP START**********************************
-loop (t,
+$label TimeLoop
+$if not set TIMESTEP $set TIMESTEP 0
+
+loop (t$(m_year(t) > %TIMESTEP%),
 
 * set ct to current time period
-      ct(t) = yes;
-
+    ct(t) = yes;
+    pt(t) = yes$(ord(t) = 1);
+    pt(t-1) = yes$(ord(t) > 1);
+    
       display "Year";
       display ct;
+      display "Previous Year";
+      display pt;
 
 $batinclude "./modules/include.gms" presolve
 
@@ -82,8 +90,12 @@ $batinclude "./modules/include.gms" postsolve
 **********************WRITE ALL DATA IN 1 GDX FILE******************************
   Execute_Unload "fulldata.gdx";
 
-* clear ct set
+* clear ct and pt set
   ct(t) = no;
+  pt(t) = no$(ord(t) = 1);
+  pt(t-1) = no$(ord(t) > 1);
+
+   put_utility 'save' / 'restart_' t.tl:0;;
 ********************************************************************************
 );
 ****************************TIMESTEP LOOP END***********************************

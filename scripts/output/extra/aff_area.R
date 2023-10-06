@@ -1,4 +1,4 @@
-# |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+# |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 # |  authors, and contributors see CITATION.cff file. This file is part
 # |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 # |  AGPL-3.0, you are granted additional permissions described in the
@@ -17,6 +17,7 @@ library(magclass)
 library(luplot)
 library(magpie4)
 library(ggplot2)
+library(gms)
 
 options(error=function()traceback(2))
 
@@ -38,7 +39,7 @@ for (i in 1:length(outputdirs)) {
   gdx<-file.path(outputdirs[i],"fulldata.gdx")
   if(file.exists(gdx)) {
     #get scenario name
-    load(file.path(outputdirs[i],"config.Rdata"))
+    cfg <- gms::loadConfig(file.path(outputdirs[i], "config.yml"))
     scen <- cfg$title
     #read-in reporting file
     x <- collapseNames(land(gdx,level="glo")[,,"forestry"])

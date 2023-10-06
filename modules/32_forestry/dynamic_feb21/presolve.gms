@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -21,18 +21,12 @@ v32_land_reduction.fx(j,type32,ac_est) = 0;
    p32_aff_pol_timestep("y1995",j) = 0;
    p32_aff_pol_timestep(t,j)$(ord(t)>1) = p32_aff_pol(t,j) - p32_aff_pol(t-1,j);
 * Suitable area (`p32_aff_pot`) for NPI/NDC afforestation
-   p32_aff_pot(t,j) = (vm_land.l(j,"crop") - vm_land.lo(j,"crop")) + (vm_land.l(j,"past") - vm_land.lo(j,"past"));
+   p32_aff_pot(t,j) = (vm_land.l(j,"crop") - vm_land.lo(j,"crop")) + (vm_land.l(j,"past") - vm_land.lo(j,"past")) - pm_land_conservation(t,j,"other","restore");
+* suitable area `p32_aff_pot` can be negative, if land restoration is switched on (level smaller than lower bound), therefore set negative values to 0
+   p32_aff_pot(t,j)$(p32_aff_pot(t,j) < 0) = 0;
 * Limit prescribed NPI/NDC afforestation in `p32_aff_pol_timestep` if not enough suitable area (`p32_aff_pot`) for afforestation is available
    p32_aff_pol_timestep(t,j)$(p32_aff_pol_timestep(t,j) > p32_aff_pot(t,j)) = p32_aff_pot(t,j);
 ** END ndc **
-
-if(m_year(t) <= sm_fix_SSP2,
- p32_max_aff_area_glo = Inf;
- p32_max_aff_area_reg(i) = Inf
-else
- p32_max_aff_area_glo = i32_max_aff_area_glo;
- p32_max_aff_area_reg(i) = i32_max_aff_area_reg(i);
-);
 
 *' @code
 
@@ -55,26 +49,42 @@ p32_carbon_density_ac(t,j,"ndc",ac,ag_pools) = pm_carbon_density_ac(t,j,ac,ag_po
 p32_cdr_ac(t,j,ac)$(ord(ac) > 1 AND (ord(ac)-1) <= s32_planing_horizon/5)
 = p32_carbon_density_ac(t,j,"aff",ac,"vegc") - p32_carbon_density_ac(t,j,"aff",ac-1,"vegc");
 
+* Disturbance from generic sources to managed and natural forests
+if((ord(t) = 1),
+ pc32_land(j,type32,ac) = p32_land_start_ac(j,type32,ac);
+else
+ pc32_land(j,type32,ac) = p32_land(t-1,j,type32,ac);
+);
+
+p32_disturbance_loss_ftype32(t,j,"aff",ac_sub) = pc32_land(j,"aff",ac_sub) * f32_forest_shock(t,"%c32_shock_scenario%") * m_timestep_length;
+pc32_land(j,"aff",ac_est) = pc32_land(j,"aff",ac_est) + sum(ac_sub,p32_disturbance_loss_ftype32(t,j,"aff",ac_sub))/card(ac_est);
+
+pc32_land(j,"aff",ac_sub) = pc32_land(j,"aff",ac_sub) - p32_disturbance_loss_ftype32(t,j,"aff",ac_sub);
+
 *' Regrowth of natural vegetation (natural succession) is modelled by shifting
 *' age-classes according to time step length. For first year of simulation, the
 *' shift is just 1. Division by 5 happends because the age-classes exist in 5 year steps
 s32_shift = m_yeardiff_forestry(t)/5;
 *' @stop
 
-*' Shifting of age-calsses in land.
+*' Shifting of age-classes in land.
 *` @code
 if((ord(t)=1),
 p32_land(t,j,type32,ac)$(ord(ac) > s32_shift) = p32_land_start_ac(j,type32,ac-s32_shift);
 p32_land(t,j,type32,"acx") = p32_land(t,j,type32,"acx") + sum(ac$(ord(ac) > card(ac)-s32_shift), p32_land_start_ac(j,type32,ac));
 else
 * Example: ac10 in t = ac5 (ac10-1) in t-1 for a 5 yr time step (s32_shift = 1)
-p32_land(t,j,type32,ac)$(ord(ac) > s32_shift) = p32_land(t-1,j,type32,ac-s32_shift);
+p32_land(t,j,type32,ac)$(ord(ac) > s32_shift) = pc32_land(j,type32,ac-s32_shift);
 * Account for cases at the end of the age class set (s32_shift > 1) which are not shifted by the above calculation
-p32_land(t,j,type32,"acx") = p32_land(t,j,type32,"acx") + sum(ac$(ord(ac) > card(ac)-s32_shift), p32_land(t-1,j,type32,ac));
+p32_land(t,j,type32,"acx") = p32_land(t,j,type32,"acx") + sum(ac$(ord(ac) > card(ac)-s32_shift), pc32_land(j,type32,ac));
 );
 * set ac_est to zero
 p32_land(t,j,type32,ac_est) = 0;
 *' @stop
+
+
+
+
 
 ** Calculate v32_land.l
 v32_land.l(j,type32,ac) = p32_land(t,j,type32,ac);
@@ -128,8 +138,12 @@ v32_land.lo(j,"ndc",ac_est) = 0;
 v32_land.up(j,"ndc",ac_est) = Inf;
 
 ** fix c price induced afforestation based on s32_planing_horizon, fixed only until end of s32_planing_horizon, ac_est is free
-v32_land.fx(j,"aff",ac)$(ac.off <= s32_planing_horizon/5) = pc32_land(j,"aff",ac);
-v32_land.up(j,"aff",ac)$(ac.off > s32_planing_horizon/5) = pc32_land(j,"aff",ac);
+if(s32_aff_prot = 0,
+  v32_land.fx(j,"aff",ac)$(ac.off <= s32_planing_horizon/5) = pc32_land(j,"aff",ac);
+  v32_land.up(j,"aff",ac)$(ac.off > s32_planing_horizon/5) = pc32_land(j,"aff",ac);
+elseif s32_aff_prot = 1,
+  v32_land.fx(j,"aff",ac) = pc32_land(j,"aff",ac);  
+);
 v32_land.lo(j,"aff",ac_est) = 0;
 v32_land.up(j,"aff",ac_est) = Inf;
 v32_land.l(j,"aff",ac_est) = 0;
@@ -137,10 +151,10 @@ v32_land.l(j,"aff",ac_est) = 0;
 ** Certain areas (e.g. the boreal zone) are excluded from endogenous afforestation.
 ** DON'T USE TYPE32 SET HERE
 if(m_year(t) <= sm_fix_SSP2,
-	v32_land.fx(j,"aff",ac_est) = 0;
+  v32_land.fx(j,"aff",ac_est) = 0;
 else
-	v32_land.lo(j,"aff",ac_est) = 0;
-	v32_land.up(j,"aff",ac_est) = f32_aff_mask(j) * sum(land, pcm_land(j,land));
+  v32_land.lo(j,"aff",ac_est) = 0;
+  v32_land.up(j,"aff",ac_est) = f32_aff_mask(j) * sum(land, pcm_land(j,land));
 );
 *' No afforestation is allowed if carbon density <= 20 tc/ha
 v32_land.fx(j,"aff",ac_est)$(fm_carbon_density(t,j,"forestry","vegc") <= 20) = 0;
@@ -158,5 +172,10 @@ pc32_yield_forestry_future_reg(i)$(pc32_yield_forestry_future_reg(i) = 0) =  sma
 ** Display
 p32_updated_gs_reg(t,i) = 1;
 p32_updated_gs_reg(t,i)$(sum((cell(i,j),ac_sub),p32_land(t,j,"plant",ac_sub))>0) = (sum((cell(i,j),ac_sub),(pm_timber_yield(t,j,ac_sub,"forestry") / sm_wood_density) * p32_land(t,j,"plant",ac_sub))/ sum((cell(i,j),ac_sub),p32_land(t,j,"plant",ac_sub)));
+
+* Avoid conflict between afforestation for carbon uptake on land and secdforest restoration
+pm_land_conservation(t,j,"secdforest","restore")$(pm_land_conservation(t,j,"secdforest","restore") > sum(ac, p32_land(t,j,"ndc",ac) + v32_land.lo(j,"plant",ac) + p32_land(t,j,"aff",ac))+ p32_aff_pol_timestep(t,j))
+        = pm_land_conservation(t,j,"secdforest","restore") - (sum(ac, p32_land(t,j,"ndc",ac) + p32_land(t,j,"aff",ac) + v32_land.lo(j,"plant",ac)) + p32_aff_pol_timestep(t,j));
+pm_land_conservation(t,j,"secdforest","restore")$(pm_land_conservation(t,j,"secdforest","restore") <= sum(ac, p32_land(t,j,"ndc",ac) + p32_land(t,j,"aff",ac) + v32_land.lo(j,"plant",ac)) + p32_aff_pol_timestep(t,j)) = 0;
 
 *** EOF presolve.gms ***

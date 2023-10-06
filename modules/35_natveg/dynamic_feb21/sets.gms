@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -6,17 +6,6 @@
 *** |  Contact: magpie@pik-potsdam.de
 
 sets
-  pol35 Land protection policy
-  / none, npi, ndc /
-
-  prot_type_all Conservation priority areas
-  / BH, CPD, FF, LW, WDPA, HalfEarth, FF_BH, Forest, Forest_Other, PrimForest, SecdForest /
-
-  prot_type(prot_type_all) Conservation priority areas
-  / BH, CPD, FF, LW, WDPA, HalfEarth /
-
-  pol_stock35 Land types for land protection policies
-  / forest, other /
 
   driver_source Source of deforestation drivers
   / overall, deforestation, shifting_agriculture,
@@ -25,7 +14,15 @@ sets
   combined_loss(driver_source) Combined loss from fire plus agriculture
   / shifting_agriculture,wildfire /
 
-  prot_target35 Target year for nature protection
-   / none, by2030, by2050 /
+  pol35 Land protection policy
+  / none, npi, ndc /
+
+  pol_stock35 Land types for land protection policies
+  / forest, other /
+
+
+  shock_scen Scenario name of forest carbon shock
+  / none, 002lin2030,004lin2030,008lin2030,016lin2030
+   /
 
 ;

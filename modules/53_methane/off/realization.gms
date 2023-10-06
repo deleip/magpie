@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -15,5 +15,5 @@
 
 *####################### R SECTION START (PHASES) ##############################
 $Ifi "%phase%" == "sets" $include "./modules/53_methane/off/sets.gms"
-$Ifi "%phase%" == "presolve" $include "./modules/53_methane/off/presolve.gms"
+$Ifi "%phase%" == "preloop" $include "./modules/53_methane/off/preloop.gms"
 *######################## R SECTION END (PHASES) ###############################

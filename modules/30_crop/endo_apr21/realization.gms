@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -16,10 +16,11 @@
 *' [41_area_equipped_for_irrigation], [42_water_demand], [50_nr_soil_budget],
 *' [53_methane] and [59_som].
 
-*' This realisation also includes the option to set aside a given share of
-*' the total available cropland for other land cover classes (by a given target
-*' year), in order to provide species habitats and to benefit from ecosystem
-*' services in agricultural landscapes.
+*' This realisation also includes the option to reserve a minimum semi-natural
+*' vegetation share within the total available cropland for other land cover
+*' classes, including grassland, forest, and other land (by a given target year),
+*' in order to provide species habitats and to benefit from ecosystem ervices in
+*' agricultural landscapes.
 
 *' @limitations There are currently no known limitations of this realization.
 

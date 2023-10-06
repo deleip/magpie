@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -21,12 +21,14 @@ $include "./modules/17_production/module.gms"
 $include "./modules/18_residues/module.gms"
 $include "./modules/20_processing/module.gms"
 $include "./modules/21_trade/module.gms"
+$include "./modules/22_land_conservation/module.gms"
 $include "./modules/29_ageclass/module.gms"
 $include "./modules/30_crop/module.gms"
 $include "./modules/31_past/module.gms"
 $include "./modules/32_forestry/module.gms"
 $include "./modules/34_urban/module.gms"
 $include "./modules/35_natveg/module.gms"
+$include "./modules/36_employment/module.gms"
 $include "./modules/37_labor_prod/module.gms"
 $include "./modules/38_factor_costs/module.gms"
 $include "./modules/39_landconversion/module.gms"

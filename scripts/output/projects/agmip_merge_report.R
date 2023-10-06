@@ -1,4 +1,4 @@
-# |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+# |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 # |  authors, and contributors see CITATION.cff file. This file is part
 # |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 # |  AGPL-3.0, you are granted additional permissions described in the
@@ -15,6 +15,7 @@ library(magclass)
 library(quitte)
 library(madrat)
 library(iamc)
+library(gms)
 
 options(error=function()traceback(2))
 
@@ -37,7 +38,7 @@ for (i in 1:length(outputdir)) {
   rep<-file.path(outputdir[i],"agmip_report.mif")
   if(file.exists(rep)) {
     #get scenario name
-    load(file.path(outputdir[i],"config.Rdata"))
+    cfg <- gms::loadConfig(file.path(outputdir[i], "config.yml"))
     scen <- cfg$title
     #Remove prefix starting with "V", like "V2"
     scen_parts <- unlist(strsplit(scen,"_"))
@@ -47,7 +48,7 @@ for (i in 1:length(outputdir)) {
     a <- read.report(rep,as.list = FALSE)
     getNames(a,dim=1) <- scen
     #add to reporting csv file
-    write.report2(a,file="output/agmip_report_full.csv",append=TRUE,ndigit = 4,skipempty = FALSE)
+    write.report(a,file="output/agmip_report_full.csv",append=TRUE,ndigit = 4,skipempty = FALSE)
   } else missing <- c(missing,outputdir[i])
 }
 if (!is.null(missing)) {
@@ -61,4 +62,3 @@ if(file.exists("output/agmip_report_full.csv")) {
   write.reportProject(mif="output/agmip_report_full.csv",mapping = system.file("extdata",mapping="variablemappingAgMIP.csv",package = "magpie4"), file = "output/agmip_report_subset.csv",format="AgMIP")
   #write.reportProject(mif="output/agmip_report_full.csv",mapping = "mapping_magpie_agmip.csv", file = "agmip_report_subset.csv",format="AgMIP")
 }
-

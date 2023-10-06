@@ -1,4 +1,4 @@
-# |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+# |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 # |  authors, and contributors see CITATION.cff file. This file is part
 # |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 # |  AGPL-3.0, you are granted additional permissions described in the
@@ -52,9 +52,7 @@ performance_start <- function(cfg="default.cfg",modulepath="modules/",id="perfor
 performance_collect <- function(id="performance",results_folder="output/",plot=TRUE) {
   require(magpie4)
   require(lucode2)
-  maindir <- getwd()
-  on.exit(setwd(maindir))
-  setwd(results_folder)
+  withr::local_dir(results_folder)
   folders <- grep(paste("^",id,"__",sep=""),list.dirs(full.names = FALSE, recursive = FALSE),value=TRUE)
   tmp <- grep(paste("^",id,"__default",sep=""),folders)
   default <- folders[tmp]
@@ -116,7 +114,7 @@ performance_collect <- function(id="performance",results_folder="output/",plot=T
                        rows=ms["rows"],columns=ms["columns"],nonzeroes=ms["nonzeroes"],nlcode=ms["nlcode"],nlnonzeroes=ms["nlnonzeroes"])
     results <- rbind(results,tmp2)
   }
-  load(file.path(default,"config.Rdata"))
+  cfg <- gms::loadConfig(file.path(default, "config.yml"))
   for(n in unique(results$module)) {
     ms <- .modelstats(default,colMeans=TRUE)
     tmp <- data.frame(module=n,realization=cfg$gms[[n]],default=TRUE,runtime=.gettime(file.path(default,paste0(default,".RData"))),infes=.infescheck(file.path(default,"fulldata.gdx")),

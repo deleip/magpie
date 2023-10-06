@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -12,6 +12,15 @@
 
  q35_land_other(j2) .. vm_land(j2,"other") =e= sum(ac, v35_other(j2,ac));
 
+*' The total natural land area cannot be smaller than the total natural land conservation target.
+*' Area requirements for natural land conservation are derived from WDPA and formulated based on
+*' conservation priority areas during future time steps.
+
+ q35_natveg_conservation(j2) ..
+            sum(land_natveg, vm_land(j2,land_natveg))
+            =g=
+            sum((ct,land_natveg,consv_type), pm_land_conservation(ct,j2,land_natveg,consv_type));
+
 *' Carbon stocks for primary forest, secondary forest or other natural land are calculated
 *' as the product of respective area and carbon density.
 *' Carbon stocks decline if the area decreases
@@ -19,39 +28,42 @@
 *' In case of abandoned agricultural land (increase of other natural land),
 *' natural succession, represented by age-class growth, results in increasing carbon stocks.
 
- q35_carbon_primforest(j2,ag_pools) .. vm_carbon_stock(j2,"primforest",ag_pools) =e=
-           vm_land(j2,"primforest")
-           *sum(ct, fm_carbon_density(ct,j2,"primforest",ag_pools));
+ q35_carbon_primforest(j2,ag_pools,stockType) ..
+    vm_carbon_stock(j2,"primforest",ag_pools,stockType) =e=
+      m_carbon_stock(vm_land,fm_carbon_density,"primforest");
 
- q35_carbon_secdforest(j2,ag_pools) .. vm_carbon_stock(j2,"secdforest",ag_pools) =e=
-           sum(ac, v35_secdforest(j2,ac)
-           *sum(ct, pm_carbon_density_ac(ct,j2,ac,ag_pools)));
+ q35_carbon_secdforest(j2,ag_pools,stockType) ..
+    vm_carbon_stock(j2,"secdforest",ag_pools,stockType) =e=
+      m_carbon_stock_ac(v35_secdforest,pm_carbon_density_ac,"ac","ac_sub");
 
- q35_carbon_other(j2,ag_pools)  .. vm_carbon_stock(j2,"other",ag_pools) =e=
-           sum(ac, v35_other(j2,ac)
-           *sum(ct, pm_carbon_density_ac(ct,j2,ac,ag_pools)));
+ q35_carbon_other(j2,ag_pools,stockType) ..
+    vm_carbon_stock(j2,"other",ag_pools,stockType) =e=
+      m_carbon_stock_ac(v35_other,pm_carbon_density_ac,"ac","ac_sub");
 
 *' The biodiversity value (BV) of primary forest, secondary forest and other land is computed by multiplying their respective land area with bii coefficients, which depend on the age class and whether the potential natural vegetation forest or non-forest (luh2 side layers).
 
  q35_bv_primforest(j2,potnatveg) .. vm_bv(j2,"primforest",potnatveg)
- 					=e=
- 					vm_land(j2,"primforest") * fm_bii_coeff("primary",potnatveg) * fm_luh2_side_layers(j2,potnatveg);
+          =e=
+          vm_land(j2,"primforest") * fm_bii_coeff("primary",potnatveg) * fm_luh2_side_layers(j2,potnatveg);
 
  q35_bv_secdforest(j2,potnatveg) .. vm_bv(j2,"secdforest",potnatveg)
- 					=e=
-          sum(bii_class_secd, sum(ac_to_bii_class_secd(ac,bii_class_secd), v35_secdforest(j2,ac)) * 
+          =e=
+          sum(bii_class_secd, sum(ac_to_bii_class_secd(ac,bii_class_secd), v35_secdforest(j2,ac)) *
           fm_bii_coeff(bii_class_secd,potnatveg)) * fm_luh2_side_layers(j2,potnatveg);
 
  q35_bv_other(j2,potnatveg) .. vm_bv(j2,"other",potnatveg)
- 					=e=
-          sum(bii_class_secd, sum(ac_to_bii_class_secd(ac,bii_class_secd), v35_other(j2,ac)) * 
+          =e=
+          sum(bii_class_secd, sum(ac_to_bii_class_secd(ac,bii_class_secd), v35_other(j2,ac)) *
           fm_bii_coeff(bii_class_secd,potnatveg)) * fm_luh2_side_layers(j2,potnatveg);
 
-*' NPI/NDC land protection policies are implemented as minium forest land and other land stock.
+*' NPI/NDC land protection policies based on country reports are implemented as
+*' minium forest and other land stocks. They are not interchangeable (as compared to
+*' the natural land conservation constraint) and specifically formulated for forest and
+*' other land stocks.
 
  q35_min_forest(j2) .. vm_land(j2,"primforest") + vm_land(j2,"secdforest")
                        =g=
- 									     sum(ct, p35_min_forest(ct,j2));
+                       sum(ct, p35_min_forest(ct,j2));
 
  q35_min_other(j2) .. vm_land(j2,"other") =g= sum(ct, p35_min_other(ct,j2));
 
@@ -61,32 +73,32 @@
 *' This information is then passed to the land module ([10_land]):
 
  q35_landdiff .. vm_landdiff_natveg =e=
- 					sum((j2,ac),
- 							v35_other_expansion(j2,ac)
- 						  + v35_other_reduction(j2,ac)
- 						  + v35_secdforest_expansion(j2,ac)
- 						  + v35_secdforest_reduction(j2,ac)
- 						  + v35_primforest_reduction(j2));
+          sum((j2,ac),
+              v35_other_expansion(j2,ac)
+              + v35_other_reduction(j2,ac)
+              + v35_secdforest_expansion(j2,ac)
+              + v35_secdforest_reduction(j2,ac)
+              + v35_primforest_reduction(j2));
 
  q35_other_expansion(j2,ac_est) ..
- 	v35_other_expansion(j2,ac_est) =e=
- 		v35_other(j2,ac_est) - pc35_other(j2,ac_est);
+  v35_other_expansion(j2,ac_est) =e=
+    v35_other(j2,ac_est) - pc35_other(j2,ac_est);
 
  q35_other_reduction(j2,ac_sub) ..
- 	v35_other_reduction(j2,ac_sub) =e=
- 		pc35_other(j2,ac_sub) - v35_other(j2,ac_sub);
+  v35_other_reduction(j2,ac_sub) =e=
+    pc35_other(j2,ac_sub) - v35_other(j2,ac_sub);
 
  q35_secdforest_expansion(j2,ac_est) ..
- 	v35_secdforest_expansion(j2,ac_est) =e=
- 		v35_secdforest(j2,ac_est) - pc35_secdforest(j2,ac_est);
+  v35_secdforest_expansion(j2,ac_est) =e=
+    v35_secdforest(j2,ac_est) - pc35_secdforest(j2,ac_est);
 
  q35_secdforest_reduction(j2,ac_sub) ..
- 	v35_secdforest_reduction(j2,ac_sub) =e=
- 		pc35_secdforest(j2,ac_sub) - v35_secdforest(j2,ac_sub);
+  v35_secdforest_reduction(j2,ac_sub) =e=
+    pc35_secdforest(j2,ac_sub) - v35_secdforest(j2,ac_sub);
 
  q35_primforest_reduction(j2) ..
- 	v35_primforest_reduction(j2) =e=
- 		pcm_land(j2,"primforest") - vm_land(j2,"primforest");
+  v35_primforest_reduction(j2) =e=
+    pcm_land(j2,"primforest") - vm_land(j2,"primforest");
 
 *******************************************************************
 **** Timber production related equations in natural vegetation ****
@@ -114,7 +126,7 @@ q35_cost_hvarea(i2)..
 q35_prod_secdforest(j2)..
                            sum(kforestry, vm_prod_natveg(j2,"secdforest",kforestry))
                            =e=
-						   sum(ac_sub, v35_hvarea_secdforest(j2,ac_sub) * sum(ct,pm_timber_yield(ct,j2,ac_sub,"secdforest"))) / m_timestep_length_forestry;
+               sum(ac_sub, v35_hvarea_secdforest(j2,ac_sub) * sum(ct,pm_timber_yield(ct,j2,ac_sub,"secdforest"))) / m_timestep_length_forestry;
 
 ** Primary forest
 *' Woody biomass production from primary forests is calculated by multiplying the
@@ -163,16 +175,17 @@ q35_hvarea_other(j2,ac_sub)..
 *' to be secondary forest i.e., harvested primary forest gets reclassified as
 *' secondary forest and ends up in the youngest age-class (and follows regrowth)
 
-q35_secdforest_conversion(j2)..
+q35_secdforest_regeneration(j2)..
                           sum(ac_est, v35_secdforest(j2,ac_est))
                           =e=
                           sum(ac_sub,v35_hvarea_secdforest(j2,ac_sub))
                         + v35_hvarea_primforest(j2)
+                        + p35_land_restoration(j2,"secdforest")
                           ;
 
 *' Harvested other land is still considered other land
 
-q35_other_conversion(j2)..
+q35_other_regeneration(j2)..
                           sum(ac_est, v35_other(j2,ac_est))
                           =g=
                           sum(ac_sub,v35_hvarea_other(j2,ac_sub))
@@ -186,3 +199,4 @@ v35_secdforest(j2,ac_est) =e= sum(ac_est2, v35_secdforest(j2,ac_est2))/card(ac_e
 
 q35_other_est(j2,ac_est) ..
 v35_other(j2,ac_est) =e= sum(ac_est2, v35_other(j2,ac_est2))/card(ac_est2);
+

@@ -1,4 +1,4 @@
-# |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+# |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 # |  authors, and contributors see CITATION.cff file. This file is part
 # |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 # |  AGPL-3.0, you are granted additional permissions described in the
@@ -16,6 +16,7 @@
 library(lucode2)
 library(magclass)
 library(quitte)
+library(gms)
 
 options(error=function()traceback(2))
 
@@ -30,24 +31,26 @@ cat("\nStarting output generation\n")
 
 missing <- NULL
 
-combined="output/inms.csv"
+combined <- "output/inms.csv"
 
 if(file.exists(combined)) file.rename(combined,"output/inms.bak")
 
 for (i in 1:length(outputdir)) {
   print(paste("Processing",outputdir[i]))
   #gdx file
-  rep<-file.path(outputdir[i],"report_inms.mif")
+  rep <- file.path(outputdir[i], "report_inms.mif")
   if(file.exists(rep)) {
     #get scenario name
-    load(file.path(outputdir[i],"config.Rdata"))
+    cfg <- gms::loadConfig(file.path(outputdir[i], "config.yml"))
     scen <- cfg$title
     #read-in reporting file
     a <- read.report(rep,as.list = FALSE)
     getNames(a,dim=1) <- scen
     #add to reporting csv file
-    write.report2(a,file=combined,append=TRUE,ndigit = 4,skipempty = FALSE)
-  } else missing <- c(missing,outputdir[i])
+    write.report(a, file = combined, append = TRUE, ndigit = 4, skipempty = FALSE)
+  } else {
+    missing <- c(missing,outputdir[i])
+  }
 }
 if (!is.null(missing)) {
   cat("\nList of folders with missing report.mif\n")

@@ -1,4 +1,4 @@
-# |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+# |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 # |  authors, and contributors see CITATION.cff file. This file is part
 # |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 # |  AGPL-3.0, you are granted additional permissions described in the
@@ -17,6 +17,7 @@
 library(gms)
 library(magpie4)
 library(txtplot)
+library(lucode2)
 
 source("scripts/start_functions.R")
 source("config/default.cfg")
@@ -59,7 +60,7 @@ scenarios <- subset(scenarios, subset=(start == "1"))
 # calculate expoLinear tax with transition in 2060
 write.ghgtax <- function(co2tax_2025=NULL,regions=NULL,out="./modules/56_ghg_policy/input/f56_pollutant_prices_emulator.cs3") {
 
-  fname <- paste0("REMIND_generic_",scenarios[scen,"co2tax_2025"],".mif")
+  fname <- paste0(scenarios[scen,"co2tax_2025"],".mif")
 
   if (file.exists(fname)) {
 
@@ -88,6 +89,8 @@ write.ghgtax <- function(co2tax_2025=NULL,regions=NULL,out="./modules/56_ghg_pol
     ghgtax[,,"n2o_n_indirect"] <- tmp[,,"Price|N2O (US$2005/t N2O)"] * 44/28     # US$2005/tN2O -> US$2005/tN
 
   } else {
+  
+    stop("Could not find ", fname)
 
     # Calculate expo-linear tax
 

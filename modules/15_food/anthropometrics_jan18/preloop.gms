@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -42,14 +42,14 @@ $endif
 
 * Stronger ruminant fadeout for India
 if (s15_rum_share_fadeout_india_strong = 1,
-	i15_rum_share_fadeout(t,"IND") = f15_rum_share_fadeout_india(t);
+  i15_rum_share_fadeout(t,"IND") = f15_rum_share_fadeout_india(t);
 );
 
 * Milk fadeout for India
 if (s15_milk_share_fadeout_india = 0,
-	i15_milk_share_fadeout_india(t) = 1;
+  i15_milk_share_fadeout_india(t) = 1;
 Elseif s15_milk_share_fadeout_india = 1,
-	i15_milk_share_fadeout_india(t) = f15_milk_share_fadeout_india(t);
+  i15_milk_share_fadeout_india(t) = f15_milk_share_fadeout_india(t);
 );
 
 display i15_milk_share_fadeout_india;
@@ -81,14 +81,6 @@ p15_country_dummy(scen_countries15) = 1;
 p15_foodscen_region_shr(t_all,i) = sum(i_to_iso(i,iso), p15_country_dummy(iso) * im_pop_iso(t_all,iso)) / sum(i_to_iso(i,iso), im_pop_iso(t_all,iso));
 
 
-
-* The target year for transition to exogenous scenario diets defines the speed
-* of fading from regression based daily food consumption towards the scenario.
-* Note: p15_foodscen_region_shr(t,i) is 1 in the default case)
-i15_exo_foodscen_fader(t,i) = f15_exo_foodscen_fader(t,"%c15_exo_scen_targetyear%") * p15_foodscen_region_shr(t,i);
-
-
-
 * Food substitution scenarios including functional forms, targets and transition periods
 * Note: p15_foodscen_region_shr(t,i) is 1 in the default case)
 i15_ruminant_fadeout(t,i) = 1 - p15_foodscen_region_shr(t,i)*(1-f15_food_substitution_fader(t,"%c15_rumscen%"));
@@ -100,9 +92,13 @@ i15_rumdairy_scp_fadeout(t,i) = 1 - p15_foodscen_region_shr(t,i)*(1-f15_food_sub
 i15_livestock_fadeout_threshold(t,i) = 1 - p15_foodscen_region_shr(t,i)*(1-f15_food_substitution_fader(t,"%c15_livescen_target%"));
 
 
+* Exogenous food intake and waste scenarios including functional forms, targets and transition periods
+* Note: p15_foodscen_region_shr(t,i) is 1 in the default case)
+i15_exo_foodscen_fader(t,i) = (1-f15_food_substitution_fader(t,"%c15_exo_foodscen%")) * p15_foodscen_region_shr(t,i);
+
 
 * initial prices in $US per Kcal
-i15_prices_initial_kcal(iso,kfo)$(f15_nutrition_attributes("y1995",kfo,"kcal")>0) = f15_prices_initial(kfo)
-                                                                                  / (f15_nutrition_attributes("y1995",kfo,"kcal")*10**6);
+i15_prices_initial_kcal(iso,kfo)$(fm_nutrition_attributes("y1995",kfo,"kcal")>0) = f15_prices_initial(kfo)
+                                                                                  / (fm_nutrition_attributes("y1995",kfo,"kcal")*10**6);
 p15_prices_kcal(t,iso,kfo,"iter1")=i15_prices_initial_kcal(iso,kfo);
 p15_convergence_measure(t,iter15)=NA;

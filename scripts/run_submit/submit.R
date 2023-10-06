@@ -1,4 +1,4 @@
-# |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+# |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 # |  authors, and contributors see CITATION.cff file. This file is part
 # |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 # |  AGPL-3.0, you are granted additional permissions described in the
@@ -8,21 +8,34 @@
 library(magclass)
 library(lucode2)
 library(magpie4)
+library(gms)
 
 #options(error=function()traceback(2))
 
-load("config.Rdata")
+.getRestartFiles <- function() {
+  restartFiles <- dir(pattern="restart_.*\\.g00")
+  names(restartFiles) <- gsub("restart_y([0-9]*)\\.g00", "\\1", restartFiles)
+  return(restartFiles)
+}
+
+.getRestartCode <- function() {
+  restartFiles <- .getRestartFiles()
+  if (length(restartFiles) == 0) return("")
+  restartFiles <- tail(restartFiles, 1)
+  return(paste0(" --RESTARTPOINT=TimeLoop --TIMESTEP=", names(restartFiles), " r=", restartFiles))
+}
+
+cfg <- gms::loadConfig("config.yml")
 
 maindir <- cfg$magpie_folder
-
-# write the config file in the output_folder: config.log
-write(capture.output(cfg), file="config.log")
 
 # Capture start time
 timeGAMSStart <- Sys.time()
 
 cat("\nStarting MAgPIE...\n")
-system(paste("gams full.gms -errmsg=1 -lf=full.log -lo=",cfg$logoption,sep=""))
+system(paste0("gams full.gms -errmsg=1 -lf=full.log -lo=",cfg$logoption, .getRestartCode()))
+
+if (isFALSE(cfg$keep_restarts)) unlink(.getRestartFiles())
 
 # Capture runtimes
 timeGAMSEnd  <- Sys.time()
@@ -126,3 +139,14 @@ lucode2::runstatistics(file           = paste0(cfg$results_folder, "/runstatisti
                       timeOutputEnd   = timeOutputEnd)
 
 print(warnings())
+
+# quit with gams status as exit code unless model completed locally optimal everywhere
+gamsCode <- Find(function(code) !code %in% c(2, 7), ms_all)
+if (is.null(gamsCode) && 7 %in% ms_all) {
+  gamsCode <- 7
+}
+if (!is.null(gamsCode)) {
+  exitCode <- gamsCode + 200 # low numbered exit codes are used by R, add 200 to avoid confusion
+  message("gams status was ", gamsCode, ", exiting with code ", exitCode)
+  quit(status = exitCode)
+}

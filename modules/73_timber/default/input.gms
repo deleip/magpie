@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -65,7 +65,7 @@ $include "./modules/73_timber/input/f73_regional_timber_demand.csv"
 $offdelim
 ;
 
-table f73_construction_wood_demand(t_all,i,pop_scen09,build_scen) Construction wood demand (mio. tDM)
+table f73_construction_wood_demand(t_all,i,pop_gdp_scen09,build_scen) Construction wood demand (mio. tDM)
 $ondelim
 $include "./modules/73_timber/input/f73_construction_wood_demand.cs3"
 $offdelim

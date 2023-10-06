@@ -1,4 +1,4 @@
-# |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+# |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 # |  authors, and contributors see CITATION.cff file. This file is part
 # |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 # |  AGPL-3.0, you are granted additional permissions described in the
@@ -26,6 +26,7 @@ library(data.table)
 library(ggrepel)
 library(patchwork)
 library(quitte)
+library(gms)
 
 options(error=function()traceback(2))
 
@@ -62,7 +63,7 @@ for (i in 1:length(outputdir)) {
   gdx<-file.path(outputdir[i],"fulldata.gdx")
   rep<-file.path(outputdir[i],"report.rds")
   if(file.exists(gdx)) {
-    load(file.path(outputdir[i],"config.Rdata"))
+    cfg <- gms::loadConfig(file.path(outputdir[i], "config.yml"))
     scen <- cfg$title
     prefix <- substring(scen, 1, 4)
 

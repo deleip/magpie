@@ -1,4 +1,4 @@
-*** |  (C) 2008-2021 Potsdam Institute for Climate Impact Research (PIK)
+*** |  (C) 2008-2023 Potsdam Institute for Climate Impact Research (PIK)
 *** |  authors, and contributors see CITATION.cff file. This file is part
 *** |  of MAgPIE and licensed under AGPL-3.0-or-later. Under Section 7 of
 *** |  AGPL-3.0, you are granted additional permissions described in the
@@ -6,8 +6,9 @@
 *** |  Contact: magpie@pik-potsdam.de
 
 *' @description This realization is based on sticky_feb18, but in addition includes a 
-*' CES production function, which 
-*' accounts for climate change impacts on labor productivity provided by [37_labor_prod]. 
+*' CES production function, which accounts for climate change impacts on labor productivity
+*' provided by [37_labor_prod], and wage increase impact on labor productivity based on 
+*' wages in [36_employment]. 
 *' The main goal of this realization is to improve crop patterns at different spatial
 *' scales. Specifically, the goal is reached by reducing capital relocation flexibility between
 *' crop types. In the "sticky" realization, the factor costs are separated into variable labor cost and
@@ -30,4 +31,7 @@ $Ifi "%phase%" == "scaling" $include "./modules/38_factor_costs/sticky_labor/sca
 $Ifi "%phase%" == "preloop" $include "./modules/38_factor_costs/sticky_labor/preloop.gms"
 $Ifi "%phase%" == "presolve" $include "./modules/38_factor_costs/sticky_labor/presolve.gms"
 $Ifi "%phase%" == "postsolve" $include "./modules/38_factor_costs/sticky_labor/postsolve.gms"
+$Ifi "%phase%" == "nl_fix" $include "./modules/38_factor_costs/sticky_labor/nl_fix.gms"
+$Ifi "%phase%" == "nl_release" $include "./modules/38_factor_costs/sticky_labor/nl_release.gms"
+$Ifi "%phase%" == "nl_relax" $include "./modules/38_factor_costs/sticky_labor/nl_relax.gms"
 *######################## R SECTION END (PHASES) ###############################
